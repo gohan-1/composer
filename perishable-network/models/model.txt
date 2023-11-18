@@ -1,0 +1,18 @@
+"class Defenition"
+
+Assets
+Participants
+Transaction
+
+Events
+Enumerated
+Concepts
+
+Resource Defenition DataTypes
+
+String
+Double
+Integer
+Long
+DataTime
+Boolean

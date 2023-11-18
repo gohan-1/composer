@@ -1,6 +1,28 @@
 namespace org.fisheries
 
-participant FisherMan identified by fid {
-  o String fid
-  o String email
+
+concept Address {
+  o String city optional
+  o String country
+  o String steet optional
+  o String postCode
 }
+
+abstract participant Bussiness identified by email {
+  o String email
+  o String batchId
+}
+
+
+participant FisherMan identified by email {
+  o Double fid
+  o String email
+  o Address address
+  o String species_type
+  o String quantity
+  o String cordinate
+  o String certificate
+  o String batchId
+}
+
+participant  Processor extends Bussiness {}
