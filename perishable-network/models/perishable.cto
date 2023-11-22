@@ -1,4 +1,4 @@
-namespace org.fisheries
+namespace org.acme.shipping.perishable
 
 
 concept Address {
@@ -8,21 +8,114 @@ concept Address {
   o String postCode
 }
 
-abstract participant Bussiness identified by email {
-  o String email
-  o String batchId
+concept PreviousState {
+  o String location
+  o DateTime arrivalDate
+}
+
+concept CurrentState {
+  o String location
+  o String arrivalDate
+  
+
+}
+concept ProductLocation {
+  o PreviousState[] previousState
+  o CurrentState currentState
+
 }
 
 
-participant FisherMan identified by email {
-  o Double fid
+enum ProductType {
+  o Salamon
+  o Tuna
+  o crab
+
+}
+
+enum ShipmentStatus{
+  o CREATED
+  o IN_TRANSIST
+  o SHIPPED
+  o ARRIVED
+}
+
+asset Contract identified by contractId {
+  o String contractId 
+  -->  FisherMan fisherman
+  --> Processor processor
+  o DateTime arrivalDate
+  o Double unitPrize
+  o Double minTemperature
+  o Double maxTemperature
+  o Double minPenality 
+}
+
+asset shipment identified by shipmentId {
+  o String shipmentId
+  o ProductType product 
+  o ShipmentStatus status
+  o Long unitCount
+  --> Contract contract
+}
+abstract participant Bussiness identified by processId {
+  o String processId
+  o String email
+  o String number
+}
+
+asset fishProduct identified by productid {
+  o String productid
+  o String[] componentId
+  o String id
+  o String barcode
+  o String names
+  o String placeoforigin
+  o DateTime produceDate
+  o DateTime expirationDate
+  o String batchId
+  o ProductType type
+  o String batchQuantity
+  o String unitPrice 
+  o ProductLocation[] productLocation
+  o ShipmentStatus status
+  --> FisherMan owner
+  --> Producer producer
+  --> Processor processor
+}
+
+
+participant FisherMan identified by fid{
+  o String fid
+  o String[] componentId
   o String email
   o Address address
-  o String species_type
-  o String quantity
-  o String cordinate
   o String certificate
-  o String batchId
+  o String location
+}
+
+participant Producer identified by pid{
+  o String pid
+  o String[] componentId
+  o String email
+  o Address address
+  o String companyName
+  o String fishermanId
 }
 
 participant  Processor extends Bussiness {}
+
+participant Distributor identified by Did {
+  o String Did
+  o String Name
+}
+
+participant Retailer identified by Rid {
+  o String Rid
+  o String name
+}
+
+participant Consumer identified by Cid {
+  o String Cid
+  o String name
+}

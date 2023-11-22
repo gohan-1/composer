@@ -1,0 +1,16 @@
+operation  => ALL,  CREATE,READ,UPDATE,DELETE
+
+action => DENY , ALLOW
+
+
+================================
+NameSpaces
+ org.acme.shipping.perishable.FisherMan#fisherman@gmail.com
+
+
+ org.hyperledger.composer.system.Participants
+
+  org.acme.shipping.perishable.* // everyone and everything 
+
+
+   org.hyperledger.composer.system.** recursive way of targeting 
