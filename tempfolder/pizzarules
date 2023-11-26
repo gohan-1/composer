@@ -1,0 +1,118 @@
+
+rule customerSeeSelf{
+  description: "customer see themselves"
+  participant(p): "org.pqc.uk.customer"
+  operation: ALL
+  resource(r): "org.pqc.uk.customer"
+  condition: (p.getIdentifier()==r.getIdentifier())
+  action: ALLOW
+}
+rule customerSeePizza{
+  description: "customer see pizza"
+  participant: "org.pqc.uk.customer"
+  operation:READ
+  resource: "org.pqc.uk.pizzaDetail"
+  action: ALLOW
+}
+rule customerSeeOrder{
+  description: "customer see pizza"
+  participant(p): "org.pqc.uk.customer"
+  operation:ALL
+  resource(r): "org.pqc.uk.order"
+  //transaction(t): "org.pqc.uk.placeOrder"
+  condition: (p.getIdentifier()==r.consumer.getIdentifier())
+  action: ALLOW
+}
+
+rule restaurantSeeSelf{
+  description: "restaurants can only view their own details"
+  participant(p): "org.pqc.uk.pizzaOutlet"
+  operation: ALL
+  resource(r): "org.pqc.uk.pizzaOutlet"
+  condition: (p.getIdentifier()==r.getIdentifier())
+  action: ALLOW 
+}
+rule restaurantSeeOrders{
+  description: "restaurant can only see their own orders"
+  participant(p): "org.pqc.uk.pizzaOutlet"
+  operation: ALL
+  resource(r): "org.pqc.uk.order"
+  condition: (p.getIdentifier()==r.restaurant.getIdentifier())
+  action:ALLOW
+}
+rule customerPlaceOrder{
+  description: "customer places order"
+  participant: "org.pqc.uk.customer"
+  operation: ALL
+  resource: "org.pqc.uk.placeOrder"
+  action: ALLOW
+}
+rule customerReadRestaurant{
+  description: "customer has read access to restaurants"
+  participant: "org.pqc.uk.customer"
+  operation: READ
+  resource: "org.pqc.uk.pizzaOutlet"
+  action: ALLOW
+}
+rule restaurantReadsCustomer{
+  description: "restaurant reads customer"
+  participant: "org.pqc.uk.pizzaOutlet"
+  operation: READ
+  resource: "org.pqc.uk.customer"
+  action:ALLOW
+}
+rule restaurantPlaceOrder{
+  description: "restaurant reads order"
+  participant: "org.pqc.uk.pizzaOutlet"
+  operation: READ, UPDATE//CANNOT CREATE
+  resource: "org.pqc.uk.order"
+  transaction: "org.pqc.uk.prepareOrder"
+  action: ALLOW
+}
+rule restaurantProcessOrder{
+  description: "restaurant process order"
+  participant: "org.pqc.uk.pizzaOutlet"
+  operation: ALL
+  resource: "org.pqc.uk.prepareOrder"
+  action: ALLOW
+}
+rule restaurantDispatchOrder{
+  description: "restaurant dispatch order access"
+  participant: "org.pqc.uk.pizzaOutlet"
+  operation:ALL
+  resource:"org.pqc.uk.dispatchOrder"
+  action:ALLOW
+}
+rule restuarantDeliverOrder{
+  description: "restaurant deliver order access"
+  participant: "org.pqc.uk.pizzaOutlet"
+  operation:ALL
+  resource: "org.pqc.uk.deliverOrder"
+  action:ALLOW
+}
+  
+rule systemACL{
+  description: "system acl to permit all access"
+  participant: "ANY"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action:ALLOW
+}
+
+ 
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
