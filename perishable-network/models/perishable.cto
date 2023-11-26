@@ -8,6 +8,8 @@ concept Address {
   o String postCode
 }
 
+
+
 concept PreviousState {
   o String location
   o DateTime arrivalDate
@@ -44,7 +46,7 @@ enum Role{
   o FISHERMAN
   o PRODUCER
   o PROCESSOR
-  o Distributor
+  o DISTRIBUTOR
   o RETAILER
   o CONSUMER
 }
@@ -102,6 +104,7 @@ participant FisherMan identified by fid{
   o Address address
   o String certificate
   o String location
+  o Role role default = "FISHERMAN"
 }
 
 participant Producer identified by pid{
@@ -111,6 +114,7 @@ participant Producer identified by pid{
   o Address address
   o String companyName
   o String fishermanId
+   o Role role default = "PRODUCER"
 }
 
 participant  Processor extends Bussiness {}
@@ -118,16 +122,19 @@ participant  Processor extends Bussiness {}
 participant Distributor identified by Did {
   o String Did
   o String Name
+  o Role role default = "DISTRIBUTOR"
 }
 
 participant Retailer identified by Rid {
   o String Rid
   o String name
+  o Role role default = "RETAILER"
 }
 
 participant Consumer identified by Cid {
   o String Cid
   o String name
+  o Role role default = "CONSUMER"
 }
 
 abstract transaction ShipmentTransaction {
