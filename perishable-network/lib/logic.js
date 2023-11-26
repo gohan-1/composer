@@ -16,7 +16,7 @@
 
 /**
  * A shipment has been received by an importer
- * @param {org.acme.shipping.perishable.ShipmentReceived} shipmentReceived - the ShipmentReceived transaction
+ * @param {org.fishDepartment.shipping.net.ShipmentReceived} shipmentReceived - the ShipmentReceived transaction
  * @transaction
  */
 async function payOut(shipmentReceived) {  // eslint-disable-line no-unused-vars
@@ -77,21 +77,21 @@ async function payOut(shipmentReceived) {  // eslint-disable-line no-unused-vars
     console.log('Importer: ' + contract.importer.$identifier + ' new balance: ' + contract.importer.accountBalance);
 
     // update the grower's balance
-    const growerRegistry = await getParticipantRegistry('org.acme.shipping.perishable.Grower');
+    const growerRegistry = await getParticipantRegistry('org.fishDepartment.shipping.net.Grower');
     await growerRegistry.update(contract.grower);
 
     // update the importer's balance
-    const importerRegistry = await getParticipantRegistry('org.acme.shipping.perishable.Importer');
+    const importerRegistry = await getParticipantRegistry('org.fishDepartment.shipping.net.Importer');
     await importerRegistry.update(contract.importer);
 
     // update the state of the shipment
-    const shipmentRegistry = await getAssetRegistry('org.acme.shipping.perishable.Shipment');
+    const shipmentRegistry = await getAssetRegistry('org.fishDepartment.shipping.net.Shipment');
     await shipmentRegistry.update(shipment);
 }
 
 /**
  * A temperature reading has been received for a shipment
- * @param {org.acme.shipping.perishable.TemperatureReading} temperatureReading - the TemperatureReading transaction
+ * @param {org.fishDepartment.shipping.net.TemperatureReading} temperatureReading - the TemperatureReading transaction
  * @transaction
  */
 async function temperatureReading(temperatureReading) {  // eslint-disable-line no-unused-vars
@@ -107,19 +107,19 @@ async function temperatureReading(temperatureReading) {  // eslint-disable-line 
     }
 
     // add the temp reading to the shipment
-    const shipmentRegistry = await getAssetRegistry('org.acme.shipping.perishable.Shipment');
+    const shipmentRegistry = await getAssetRegistry('org.fishDepartment.shipping.net.Shipment');
     await shipmentRegistry.update(shipment);
 }
 
 /**
  * Initialize some test assets and participants useful for running a demo.
- * @param {org.acme.shipping.perishable.SetupDemo} setupDemo - the SetupDemo transaction
+ * @param {org.fishDepartment.shipping.net.SetupDemo} setupDemo - the SetupDemo transaction
  * @transaction
  */
 async function setupDemo(setupDemo) {  // eslint-disable-line no-unused-vars
 
     const factory = getFactory();
-    const NS = 'org.acme.shipping.perishable';
+    const NS = 'org.fishDepartment.shipping.net';
 
     // create the grower
     const grower = factory.newResource(NS, 'Grower', 'farmer@email.com');

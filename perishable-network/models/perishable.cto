@@ -1,4 +1,4 @@
-namespace org.acme.shipping.perishable
+namespace org.fishDepartment.shipping.net
 
 
 concept Address {
@@ -40,6 +40,15 @@ enum ShipmentStatus{
   o ARRIVED
 }
 
+enum Role{
+  o FISHERMAN
+  o PRODUCER
+  o PROCESSOR
+  o Distributor
+  o RETAILER
+  o CONSUMER
+}
+
 asset Contract identified by contractId {
   o String contractId 
   -->  FisherMan fisherman
@@ -62,6 +71,7 @@ abstract participant Bussiness identified by processId {
   o String processId
   o String email
   o String number
+  o Role role default = "PROCESSOR"
 }
 
 asset fishProduct identified by productid {
