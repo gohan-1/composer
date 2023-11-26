@@ -74,7 +74,7 @@ abstract participant Bussiness identified by processId {
   o Role role default = "PROCESSOR"
 }
 
-asset fishProduct identified by productid {
+asset FishProduct identified by productid {
   o String productid
   o String[] componentId
   o String id
