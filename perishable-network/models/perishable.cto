@@ -62,13 +62,7 @@ asset Contract identified by contractId {
   o Double minPenality 
 }
 
-asset shipment identified by shipmentId {
-  o String shipmentId
-  o ProductType product 
-  o ShipmentStatus status
-  o Long unitCount
-  --> Contract contract
-}
+
 abstract participant Bussiness identified by processId {
   o String processId
   o String email
@@ -167,4 +161,5 @@ asset Shipment identified by shipmentId {
   o Long unitCount
   o TemperatureReading[] temperatureReadings optional
   --> Contract contract
+  -->FishProduct product
 }

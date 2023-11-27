@@ -16,15 +16,32 @@
  * Sample access control list.
  */
 
+rule createShipment{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.hyperledger.composer.system.Participant"
+     operation: CREATE,READ
+     resource(r): "org.fishDepartment.shipping.net.FishProduct"
+  	 condition: ( checkProfileforProcessor(p.role) )
+     action: ALLOW
+  
+}
+
 rule CreateAsset {
      description: "Allow producer and fisherman to create asset"
      participant(p): "org.hyperledger.composer.system.Participant"
      operation: CREATE,READ
      resource(r): "org.fishDepartment.shipping.net.FishProduct"
-  	 condition: ( p.role == "PROCESSOR" )
+  	 condition: ( checkProfileforProccessorandFisherMan(p.role) )
      action: ALLOW
 }
 
+rule readAssets {
+     description: "Allow producer and fisherman to create asset"
+     participant: "org.hyperledger.composer.system.Participant"
+     operation: READ
+     resource: "org.fishDepartment.shipping.net.FishProduct"
+     action: ALLOW
+}
 
 
 rule SystemACL {
