@@ -16,15 +16,93 @@
  * Sample access control list.
  */
 
+rule fishermanSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.FisherMan"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.FisherMan"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+rule producerSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.Producer"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.Producer"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+rule processorSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.Processor"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.Processor"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+
+
+
+rule distributorSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.Distributor"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.Distributor"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+
+rule consumerSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.Consumer"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.Consumer"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+
+rule retailerSeeThemself{
+	description: "Allow producer and fisherman to create asset"
+     participant(p): "org.fishDepartment.shipping.net.Retailer"
+     operation: ALL
+     resource(r): "org.fishDepartment.shipping.net.Retailer"
+  	 condition: (p.getIdentifier()==r.getIdentifier())
+     action: ALLOW
+}
+
+
+
+
+
 rule createShipment{
 	description: "Allow producer and fisherman to create asset"
      participant(p): "org.hyperledger.composer.system.Participant"
      operation: CREATE,READ
-     resource(r): "org.fishDepartment.shipping.net.FishProduct"
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
   	 condition: ( checkProfileforProcessor(p.role) )
      action: ALLOW
   
 }
+
+
+
+rule updateShipment{
+	description: "Allow producer and fisherman to create asset"
+     participant: "org.hyperledger.composer.system.Participant"
+     operation: UPDATE,READ
+     resource: "org.fishDepartment.shipping.net.Shipment"
+     action: ALLOW
+  
+}
+
+
+
+
 
 rule CreateAsset {
      description: "Allow producer and fisherman to create asset"
