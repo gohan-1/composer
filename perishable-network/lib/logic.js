@@ -16,7 +16,7 @@ function checkProfileforProccessorandFisherMan(role){
     console.log(role)
     return  (role == "PRODUCER" || role == "FISHERMAN")
   }
-  async function checkProfileforProcessor(role){
+ function checkProfileforProcessor(role){
   console.log(role)
     return  (role == "PROCESSOR")
   }

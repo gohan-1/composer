@@ -17,7 +17,7 @@ concept PreviousState {
 
 concept CurrentState {
   o String location
-  o String arrivalDate
+  o DateTime arrivalDate
   
 
 }
@@ -83,11 +83,10 @@ asset FishProduct identified by productid {
   o ProductType type
   o String batchQuantity
   o String unitPrice 
-  o ProductLocation[] productLocation
+  o ProductLocation productLocation
   o ShipmentStatus status
   --> FisherMan owner
   --> Producer producer
-  --> Processor processor
 }
 
 
