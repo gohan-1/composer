@@ -16,6 +16,98 @@
  * Sample access control list.
  */
 
+
+rule consumerCanSeeTheirShipment{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Consumer"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.consumer.getIdentifier())
+     action: ALLOW
+}
+
+
+rule retailerCanSeeTheirShipment{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Retailer"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.retailer.getIdentifier())
+     action: ALLOW
+}
+
+
+rule distributorCanSeeTheirShipment{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Distributor"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.distributor.getIdentifier())
+     action: ALLOW
+}
+
+rule consumercanseeThireasset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Consumer"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.owner.getIdentifier())
+     action: ALLOW
+}
+
+rule retailercanseeThireasset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Retailer"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.owner.getIdentifier())
+     action: ALLOW
+}
+
+
+
+rule distributorcanseeThireasset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Distributor"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.Shipment"
+  	 condition: (p.getIdentifier()==r.owner.getIdentifier())
+     action: ALLOW
+}
+
+
+rule fishermancanseeThireasset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.FisherMan"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.FishProduct"
+  	 condition: (p.getIdentifier()==r.owner.getIdentifier())
+     action: ALLOW
+}
+
+
+rule processorcanseeThireAsset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Processor"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.FishProduct"
+  	 condition: (p.getIdentifier()==r.processor.getIdentifier())
+     action: ALLOW
+}
+
+rule producercanseeThireAsset{
+	description: "Allow fisherman to se"
+     participant(p): "org.fishDepartment.shipping.net.Producer"
+     operation: READ,UPDATE
+     resource(r): "org.fishDepartment.shipping.net.FishProduct"
+  	 condition: (p.getIdentifier()==r.producer.getIdentifier())
+     action: ALLOW
+}
+
+
+
+
+
 rule fishermanSeeThemself{
 	description: "Allow producer and fisherman to create asset"
      participant(p): "org.fishDepartment.shipping.net.FisherMan"
@@ -25,7 +117,7 @@ rule fishermanSeeThemself{
      action: ALLOW
 }
 
-rule producerSeeThemself{
+rule producerSeeThire{
 	description: "Allow producer and fisherman to create asset"
      participant(p): "org.fishDepartment.shipping.net.Producer"
      operation: ALL
@@ -107,19 +199,12 @@ rule updateShipment{
 rule CreateAsset {
      description: "Allow producer and fisherman to create asset"
      participant(p): "org.hyperledger.composer.system.Participant"
-     operation: CREATE,READ
+     operation: CREATE
      resource(r): "org.fishDepartment.shipping.net.FishProduct"
   	 condition: ( checkProfileforProccessorandFisherMan(p.role) )
      action: ALLOW
 }
 
-rule readAssets {
-     description: "Allow producer and fisherman to create asset"
-     participant: "org.hyperledger.composer.system.Participant"
-     operation: READ
-     resource: "org.fishDepartment.shipping.net.FishProduct"
-     action: ALLOW
-}
 
 
 rule SystemACL {

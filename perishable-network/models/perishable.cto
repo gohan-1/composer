@@ -36,6 +36,7 @@ enum ProductType {
 }
 
 enum ShipmentStatus{
+  o NOT_CREATED
   o CREATED
   o IN_TRANSIST
   o SHIPPED
@@ -84,9 +85,10 @@ asset FishProduct identified by productid {
   o String batchQuantity
   o String unitPrice 
   o ProductLocation productLocation
-  o ShipmentStatus status
+  o ShipmentStatus shipmentStatus  default ="NOT_CREATED"
   --> FisherMan owner
   --> Producer producer
+  -->Processor processor
 }
 
 
@@ -156,9 +158,12 @@ transaction SetupDemo {
 asset Shipment identified by shipmentId {
   o String shipmentId
   o ProductType type
-  o ShipmentStatus status
+  o ShipmentStatus status default = "SHIPPMENT_NOT_CREATED"
   o Long unitCount
   o TemperatureReading[] temperatureReadings optional
   --> Contract contract
+  --> Distributor distributor
+  --> Retailer retailer
+  --> Consumer consumer
   -->FishProduct product
 }
