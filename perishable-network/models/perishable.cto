@@ -152,7 +152,7 @@ transaction TemperatureReading extends ShipmentTransaction {
 transaction ShipmentReceived extends ShipmentTransaction {
 }
 
-transaction SetupDemo {
+transaction initializeAll {
 }
 
 asset Shipment identified by shipmentId {
@@ -165,5 +165,5 @@ asset Shipment identified by shipmentId {
   --> Distributor distributor
   --> Retailer retailer
   --> Consumer consumer
-  -->FishProduct product
+  --> FishProduct product
 }

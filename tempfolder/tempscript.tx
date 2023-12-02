@@ -1,0 +1,34 @@
+	let ids = ['1000', '2000', '3000','4000'];
+  	let firstNames = ['Mohamed', 'Pauline', 'Sharon','Harjinder'];
+    let lastNames = ['Sherrif', 'Tyler', 'Brown','Barn'];
+    let grades = ['Manager', 'Consultant', 'Trader','Trader'];
+	//values to populate commodities
+  	let commodityIDs= ['51', '52', '53', '54', '55'];
+    let commodityOwner = ['3000', '4000', '3000', '3000', '4000'];
+  	let commodityDesc = ['tea', 'coffee', 'milk', 'chocolate', 'grain'];
+  	let commodityQuan = [100.0, 140, 200.0, 55.5, 400];
+	// arrays for staff and commodities - push new item every iteration and then addAll to registry  	
+  	let staff = new Array();
+  	let commodities = new Array();
+  	//have to update staff first since there is a relationship of owner in commodity
+    for(let i=0; i<ids.length; i++){
+     	let factory = getFactory();
+      	let newStaff = factory.newResource(ns, 'Trader', ids[i]);
+      	newStaff.firstName = firstNames[i];
+      	newStaff.lastName = lastNames[i];
+      	newStaff.grade = grades[i];
+      	staff.push(newStaff);
+    }
+  	let traderReg = await getParticipantRegistry(ns+'.Trader');
+  	await traderReg.addAll(staff);
+    commodityIDs.forEach( (commodityValue, commodityIndex) => {
+   		let factory = getFactory();
+   		let newCommodity = factory.newResource(ns, 'Commodity', commodityValue);
+   		let ownerRel = factory.newRelationship(ns, 'Trader', commodityOwner[commodityIndex]);
+      	newCommodity.owner = ownerRel;
+      	newCommodity.description = commodityDesc[commodityIndex];
+      	newCommodity.quantity = commodityQuan[commodityIndex];
+      	commodities.push(newCommodity);
+    });
+  	let commodityReg = await getAssetRegistry(ns+'.Commodity');
+  	await commodityReg.addAll(commodities);
