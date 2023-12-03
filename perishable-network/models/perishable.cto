@@ -158,6 +158,25 @@ transaction ShipmentReceived extends ShipmentTransaction {
 transaction initializeAll {
 }
 
+
+transaction addNewFishProduct {
+  o String productid
+  o String[] componentId
+  o String id
+  o String barcode
+  o String name
+  o String placeoforigin
+  o DateTime produceDate
+  o DateTime expirationDate
+  o String batchId
+  o ProductType type
+  o String batchQuantity
+  o String unitPrice 
+  o String location
+  o String shipmentStatus  default ="NOT_CREATED"
+
+}
+
 asset Shipment identified by shipmentId {
   o String shipmentId
   o ProductType type

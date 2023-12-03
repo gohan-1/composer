@@ -266,3 +266,50 @@ async function TemperatureReadingFn(tx){
 }
 
 
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.addNewFishProduct} addNewFishProductFn - no params
+ * @transaction
+ */
+
+
+
+
+async function addNewFishProductFn(tx){
+
+  const id = tx.getCurrentParticipant
+  
+  let fishProduct = factory.newResource(NS,'FishProduct',tx.productid)
+    fishProduct.componentId = tx.componentId
+    fishProduct.id = tx.id
+    fishProduct.barcode= tx.barcode
+    fishProduct.name= tx.name
+    fishProduct.placeoforigin =tx.location
+    fishProduct.produceDate = tx.timestamp
+    fishProduct.expirationDate = tx.timestamp 
+    fishProduct.type= tx.type
+    fishProduct.batchQuantity =tx.batchQuantity
+    fishProduct.batchId = tx.batchId 
+    fishProduct.unitPrice  = tx.unitPrice
+    let  productLocation = factory.newConcept(NS,'ProductLocation')
+    let currentState = factory.newConcept(NS,'CurrentState')
+    let previousState =factory.newConcept(NS,'PreviousState')
+    currentState.location =tx.location
+    currentState.arrivalDate = tx.timestamp
+    previousState.arrivalDate = tx.timestamp
+    previousState.location =tx.location
+    productLocation.previousState= [previousState]
+    productLocation.currentState =currentState
+    fishProduct.productLocation = productLocation
+  
+  
+  
+  
+    fishProduct.shipmentStatus =tx.shipmentStatus
+    fishProduct.owner = factory.newRelationship(NS,'FisherMan',id)
+   
+    fishProduct.producer = factory.newRelationship(NS,'Producer',`0000`)
+     
+    fishProduct.processor = factory.newRelationship(NS,'Processor',`0000`)
+  
+}
