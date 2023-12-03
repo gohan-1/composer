@@ -258,6 +258,26 @@ await producerParticipantRegistry.addAll(producer)
 const distributorParticipantRegistry = await getParticipantRegistry(NS+'.Distributor');
 await distributorParticipantRegistry.addAll(distributor)
 
+const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
+await retailerParticipantRegistry.addAll(retailer)
+
+const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
+await consumerParticipantRegistry.addAll(consumer)
+
+const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+await fishProductAssetRegistery.addAll(fishProduct)
+
+const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
+await contractAssetRegistery.addAll(contract)
+
+const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+await shipmentAssetRegistery.addAll(shipment)
+
+
+
+
+
+
 
 
 
