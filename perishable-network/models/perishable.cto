@@ -4,7 +4,7 @@ namespace org.fishDepartment.shipping.net
 concept Address {
   o String city optional
   o String country
-  o String steet optional
+  o String street optional
   o String postCode
 }
 
@@ -54,13 +54,15 @@ enum Role{
 
 asset Contract identified by contractId {
   o String contractId 
-  -->  FisherMan fisherman
-  --> Processor processor
+  -->  Producer producer
+  -->  Processor processor
+  -->  Distributor distributor
   o DateTime arrivalDate
   o Double unitPrize
   o Double minTemperature
   o Double maxTemperature
   o Double minPenality 
+  o Double maxPenality 
 }
 
 
@@ -94,7 +96,6 @@ asset FishProduct identified by productid {
 
 participant FisherMan identified by fid{
   o String fid
-  o String[] componentId
   o String email
   o Address address
   o String certificate
@@ -104,12 +105,11 @@ participant FisherMan identified by fid{
 
 participant Producer identified by pid{
   o String pid
-  o String[] componentId
   o String email
   o Address address
   o String companyName
   o String fishermanId
-   o Role role default = "PRODUCER"
+  o Role role default = "PRODUCER"
 }
 
 participant  Processor extends Bussiness {}
@@ -117,18 +117,21 @@ participant  Processor extends Bussiness {}
 participant Distributor identified by Did {
   o String Did
   o String Name
+   o String email
   o Role role default = "DISTRIBUTOR"
 }
 
 participant Retailer identified by Rid {
   o String Rid
   o String name
+   o String email
   o Role role default = "RETAILER"
 }
 
 participant Consumer identified by Cid {
   o String Cid
   o String name
+   o String email
   o Role role default = "CONSUMER"
 }
 
