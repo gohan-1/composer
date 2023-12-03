@@ -276,8 +276,9 @@ async function TemperatureReadingFn(tx){
 
 
 async function addNewFishProductFn(tx){
+   let factory = getFactory();
 
-  const id = tx.getCurrentParticipant
+  const id = getCurrentParticipant()  
   
   let fishProduct = factory.newResource(NS,'FishProduct',tx.productid)
     fishProduct.componentId = tx.componentId
@@ -302,6 +303,8 @@ async function addNewFishProductFn(tx){
     productLocation.currentState =currentState
     fishProduct.productLocation = productLocation
   
+  console.log('--------------------------------------')
+   console.log(id)
   
   
   
@@ -311,5 +314,7 @@ async function addNewFishProductFn(tx){
     fishProduct.producer = factory.newRelationship(NS,'Producer',`0000`)
      
     fishProduct.processor = factory.newRelationship(NS,'Processor',`0000`)
+    const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+    await fishProductAssetRegistery.addAll([fishProduct])
   
 }
