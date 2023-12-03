@@ -33,27 +33,57 @@
         let factory = getFactory();
         const NS = 'org.fishDepartment.shipping.net';
     
+
+
         //create the Fisherman 
     
-        let Fisherman =  factory.newResource(NS,'FisherMan','1001');
+
+        let Fishermanid = ['1001','1002','1003','1004']
+        let city = ['London','Hendon','CrickleWood','Luton']
+        let postCode = ["N4 1EE","N4 1EA","N4 1EB","N4 1EC"]
+        let street = ['London','Hendon','CrickleWood','Luton']
+        let email = ["fisherMan1@gmail.com","fisherMan2@gmail.com","fisherMan3@gmail.com","fisherMan4@gmail.com"]
+        let certificate = ['abc','def','ghij','klmnopq']
+        let location = ['London','Hendon','CrickleWood','Luton']
+    
+        
+        let fisherMans = []
+        
+        Fishermanid.forEach((element,index) => {
+            let Fisherman =  factory.newResouce(NS,'FisherMan',element);
+        let  fisherManAddress = factory.newConcept(NS,'Address')
+        fisherManAddress.city=city[index]
+        fisherManAddress.country = "United Kingdom"
+        fisherManAddress.street = street[index]
+        fisherManAddress.postCode = postCode[index]
+    
+      Fisherman.email = email[index]
+      Fisherman.address = fisherManAddress
+      Fisherman.certificate =certificate[index]
+      Fisherman.location =location[index]
+      Fisherman.role = "FISHERMAN"
+      fisherMans.push(Fisherman)
+        });
+
+    //     let Fisherman =  factory.newResource(NS,'FisherMan','1001');
 
    
      
    
 
 
-        let  fisherManAddress = factory.newConcept(NS,'Address')
-        fisherManAddress.city="london"
-        fisherManAddress.country = "United Kingdom"
-        fisherManAddress.street = "Finsbury park"
-        fisherManAddress.postCode = "N4 1EE"
+    //     let  fisherManAddress = factory.newConcept(NS,'Address')
+    //     fisherManAddress.city="london"
+    //     fisherManAddress.country = "United Kingdom"
+    //     fisherManAddress.street = "Finsbury park"
+    //     fisherManAddress.postCode = "N4 1EE"
        
     
-      Fisherman.email = "gohanthe@gmail.com"
-        Fisherman.address = fisherManAddress
-      Fisherman.certificate ="ABC"
-      Fisherman.location ="Finsbury Park"
-      Fisherman.role = "FISHERMAN"
+    //   Fisherman.email = "gohanthe@gmail.com"
+    //     Fisherman.address = fisherManAddress
+    //   Fisherman.certificate ="ABC"
+    //   Fisherman.location ="Finsbury Park"
+    //   Fisherman.role = "FISHERMAN"
     
       let producer =  factory.newResource(NS,'Producer','2001');
     
