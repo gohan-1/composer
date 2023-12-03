@@ -50,7 +50,7 @@
         let fisherMans = []
         
         Fishermanid.forEach((element,index) => {
-            let Fisherman =  factory.newResouce(NS,'FisherMan',element);
+            let Fisherman =  factory.newResource(NS,'FisherMan',element);
         let  fisherManAddress = factory.newConcept(NS,'Address')
         fisherManAddress.city=city[index]
         fisherManAddress.country = "United Kingdom"
@@ -193,33 +193,33 @@
     
     //added participants  
     const fishermanParticipantRegistry = await getParticipantRegistry(NS+'.FisherMan');
-    await fishermanParticipantRegistry.addAll(Fisherman)
+    await fishermanParticipantRegistry.addAll(fisherMans)
     
-    const processorParticipantRegistry = await getParticipantRegistry(NS+'.Processor');
-    await processorParticipantRegistry.addAll(processor)
-    
-    
-    const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
-    await producerParticipantRegistry.addAll(producer)
+    // const processorParticipantRegistry = await getParticipantRegistry(NS+'.Processor');
+    // await processorParticipantRegistry.addAll(processor)
     
     
-    const distributorParticipantRegistry = await getParticipantRegistry(NS+'.Distributor');
-    await distributorParticipantRegistry.addAll(distributor)
+    // const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
+    // await producerParticipantRegistry.addAll(producer)
     
-    const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
-    await retailerParticipantRegistry.addAll(retailer)
     
-    const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
-    await consumerParticipantRegistry.addAll(consumer)
+    // const distributorParticipantRegistry = await getParticipantRegistry(NS+'.Distributor');
+    // await distributorParticipantRegistry.addAll(distributor)
     
-    const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
-    await fishProductAssetRegistery.addAll(fishProduct)
+    // const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
+    // await retailerParticipantRegistry.addAll(retailer)
     
-    const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
-    await contractAssetRegistery.addAll(contract)
+    // const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
+    // await consumerParticipantRegistry.addAll(consumer)
     
-    const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
-    await shipmentAssetRegistery.addAll(shipment)
+    // const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+    // await fishProductAssetRegistery.addAll(fishProduct)
+    
+    // const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
+    // await contractAssetRegistery.addAll(contract)
+    
+    // const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+    // await shipmentAssetRegistery.addAll(shipment)
     
     
       
