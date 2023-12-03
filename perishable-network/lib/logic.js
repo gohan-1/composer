@@ -65,107 +65,148 @@
       fisherMans.push(Fisherman)
         });
 
-    //     let Fisherman =  factory.newResource(NS,'FisherMan','1001');
+   // create produce
 
-   
-     
-   
+   let producerId = ['2001','2002','2003','2004']
+    let producerEmail = ['producer1@gmail.com','producer2@gmail.com','producer3@gmail.com','producer4@gmail.com']
+    let producers =[]
 
-
-    //     let  fisherManAddress = factory.newConcept(NS,'Address')
-    //     fisherManAddress.city="london"
-    //     fisherManAddress.country = "United Kingdom"
-    //     fisherManAddress.street = "Finsbury park"
-    //     fisherManAddress.postCode = "N4 1EE"
-       
-    
-    //   Fisherman.email = "gohanthe@gmail.com"
-    //     Fisherman.address = fisherManAddress
-    //   Fisherman.certificate ="ABC"
-    //   Fisherman.location ="Finsbury Park"
-    //   Fisherman.role = "FISHERMAN"
-    
-      let producer =  factory.newResource(NS,'Producer','2001');
+    producerId.forEach((element,index) => {
+        
+        let producer =  factory.newResource(NS,'Producer',element);
     
       
-        producer.email = 'producer@gmail.com'
+        producer.email = producerEmail[index]
     
-      producer.companyName = 'ABC'
-      producer.fishermanId= '1001'
+      producer.companyName = 'ABC'+index
+      producer.fishermanId= fishermanId[index]
       producer.role = "PRODUCER"
       let  producerAddress = factory.newConcept(NS,'Address')
-      producerAddress.city="london"
+      producerAddress.city=city[index]
       producerAddress.country = "United Kingdom"
-      producerAddress.street = "Hendo"
-      producerAddress.postCode = "NW 4EE"
-      producer.Address = producerAddress
+      producerAddress.street = street[index]
+      producerAddress.postCode = postCode[index]
+      producer.address = producerAddress
     
-    
-      let processor  =  factory.newResource(NS,'Processor','3001');
-      processor.email= "processor@gmail.com"
-      processor.number = "12345678"
+        producers.push(producer)
+    });
+     let  processors = []
+     let distributors = []
+     let retailers=[]
+     let consumers = []
+    producerId.forEach((element,index) => {
+        
+        let processor  =  factory.newResource(NS,'Processor',`300${index}`);
+      processor.email= `processor${index}@gmail.com`
+      processor.nubmer = "12345678"+index
       processor.role = "PROCESSOR"
     
-      let distributor  =  factory.newResource(NS,'Distributor','4001');
-      distributor.email= "distributor@gmail.com"
-      distributor.number = "12345347"
+      let distributor  =  factory.newResource(NS,'Distributor',`400${index}`);
+      distributor.email= `distributor${index}@gmail.com`
+      distributor.name = `Distributor${index}`
       distributor.role = "DISTRIBUTOR"
     
-      let retailer  =  factory.newResource(NS,'Retailer','5001');
-      retailer.email= "retailer@gmail.com"
-      retailer.number = "12345347"
+      let retailer  =  factory.newResource(NS,'Retailer',`500${index}`);
+      retailer.email= `retailer${index}@gmail.com`
+      retailer.name = `Retailer${index}`
       retailer.role = "RETAILER"
     
-      let consumer  =  factory.newResource(NS,'Consumer','6001');
-      consumer.email= "consumer@gmail.com"
-      consumer.number = "12345347"
+      let consumer  =  factory.newResource(NS,'Consumer',`600${index}`);
+      consumer.email= `consumer${index}@gmail.com`
+      consumer.name = `Consumer${index}`
       consumer.role = "CONSUMER"
-    
-    
-    
-    
-      let fishProduct = factory.newResource(NS,'FishProduct','FP_001')
-    
-    
-      fishProduct.componentId = ['123']
-      fishProduct.id = '453'
-      fishProduct.barcode= 'abcde'
-      fishProduct.name= 'tuna product'
-      fishProduct.placeoforigin ="london"
-      fishProduct.produceDate = tx.timestamp
-      fishProduct.expirationDate = tx.timestamp 
-      fishProduct.batchId='1'
-      fishProduct.type= "Salamon"
-      fishProduct.batchQuantity ="100"
-      fishProduct.unitPrice  ="100"
-      let  productLocation = factory.newConcept(NS,'ProductLocation')
-      let currentState = factory.newConcept(NS,'CurrentState')
-      let previousState =factory.newConcept(NS,'PreviousState')
-      currentState.location ="A"
-      currentState.arrivalDate = tx.timestamp
-      previousState.arrivalDate = tx.timestamp
-      previousState.location ="B"
-      productLocation.PreviousState= [previousState]
-      productLocation.currentState =currentState
-      fishProduct.productLocation = productLocation
-    
-    
-    
-    
-      fishProduct.shipmentStatus ="NOT_CREATED"
-      fishProduct.owner = factory.newRelationship(NS,'FisherMan','1001')
-     
-      fishProduct.producer = factory.newRelationship(NS,'Producer','2001')
+
+      processors.push(processor)
+      distributors.push(distributor)
+      retailers.push(retailer)
+      consumers.push(consumer)
+    });
+
+    let fishProducts = []
+
+    Fishermanid.forEach((element,index) => {
+        let fishProduct = factory.newResource(NS,'FishProduct',`FP_00${index}`)
+        fishProduct.componentId = [`123${index}`]
+        fishProduct.id = `45${index}`
+        fishProduct.barcode= `abcde${index}`
+        fishProduct.name= `product${index}`
+        fishProduct.placeoforigin =location[index]
+        fishProduct.produceDate = tx.timestamp
+        fishProduct.expirationDate = tx.timestamp 
+        fishProduct.type= "Salamon"
+        fishProduct.batchQuantity ="100"
+        fishProduct.unitPrice  ="100"
+        let  productLocation = factory.newConcept(NS,'ProductLocation')
+        let currentState = factory.newConcept(NS,'CurrentState')
+        let previousState =factory.newConcept(NS,'PreviousState')
+        currentState.location ="A"
+        currentState.arrivalDate = tx.timestamp
+        previousState.arrivalDate = tx.timestamp
+        previousState.location ="B"
+        productLocation.PreviousState= [previousState]
+        productLocation.currentState =currentState
+        fishProduct.productLocation = productLocation
+      
+      
+      
+      
+        fishProduct.shipmentStatus ="NOT_CREATED"
+        fishProduct.owner = factory.newRelationship(NS,'FisherMan',`100${index}`)
        
-      fishProduct.processor = factory.newRelationship(NS,'Processor','3001')
+        fishProduct.producer = factory.newRelationship(NS,'Producer',`200${index}`)
+         
+        fishProduct.processor = factory.newRelationship(NS,'Processor',`300${index}`)
+       fishProducts.push(fishProduct)
+    });
+      
+    
+    
+    
+    
+      // let fishProduct = factory.newResource(NS,'FishProduct','FP_001')
+    
+    
+      // fishProduct.componentId = ['123']
+      // fishProduct.id = '453'
+      // fishProduct.barcode= 'abcde'
+      // fishProduct.name= 'tuna product'
+      // fishProduct.placeoforigin ="london"
+      // fishProduct.produceDate = tx.timestamp
+      // fishProduct.expirationDate = tx.timestamp 
+      // fishProduct.batchId='1'
+      // fishProduct.type= "Salamon"
+      // fishProduct.batchQuantity ="100"
+      // fishProduct.unitPrice  ="100"
+      // let  productLocation = factory.newConcept(NS,'ProductLocation')
+      // let currentState = factory.newConcept(NS,'CurrentState')
+      // let previousState =factory.newConcept(NS,'PreviousState')
+      // currentState.location ="A"
+      // currentState.arrivalDate = tx.timestamp
+      // previousState.arrivalDate = tx.timestamp
+      // previousState.location ="B"
+      // productLocation.PreviousState= [previousState]
+      // productLocation.currentState =currentState
+      // fishProduct.productLocation = productLocation
+    
+    
+    
+    
+      // fishProduct.shipmentStatus ="NOT_CREATED"
+      // fishProduct.owner = factory.newRelationship(NS,'FisherMan','1001')
+     
+      // fishProduct.producer = factory.newRelationship(NS,'Producer','2001')
+       
+      // fishProduct.processor = factory.newRelationship(NS,'Processor','3001')
     
      
-    
-    
-      let contract = factory.newResource(NS,'Contract','CN_001')
-      contract.processor=factory.newRelationship(NS,'Processor','3001')
-      contract.producer=factory.newRelationship(NS,'Producer','2001')
-      contract.distributor=factory.newRelationship(NS,'Distributor','4001')
+      let contracts = []
+      let shipments =[]
+    Fishermanid.forEach((element,index) => {
+
+      let contract = factory.newResource(NS,'Contract',`CN_00${index}`)
+      contract.processor=factory.newRelationship(NS,'Processor',`300${index}`)
+      contract.producer=factory.newRelationship(NS,'Producer',`200${index}`)
+      contract.distributor=factory.newRelationship(NS,'Distributor',`400${index}`)
       let tomorrow = tx.timestamp
       tomorrow.setDate(tomorrow.getDate() + 1);
     
@@ -177,49 +218,83 @@
       contract.minPenality =0.1
       contract.maxPenality =0.2
     
-      let shipment = factory.newResource(NS,'Shipment','SP_001')
+      let shipment = factory.newResource(NS,'Shipment',`SP_00${index}`)
       
       shipment.type ="Salamon"
     
       shipment.status = "NOT_CREATED"
-      shipment.unitCount = 50
+      shipment.unitCount = 50+index
     
-      shipment.contract = factory.newRelationship(NS,'Contract','CN_001')
-     shipment.distributor = factory.newRelationship(NS,'Distributor','4001')
-     shipment.retailer = factory.newRelationship(NS,'Retailer','5001')
-     shipment.consumer = factory.newRelationship(NS,'Consumer','6001')
-     shipment.product = factory.newRelationship(NS,'FishProduct','FP_001')
+      shipment.contract = factory.newRelationship(NS,'Contract',`CN_00${index}`)
+     shipment.distributor = factory.newRelationship(NS,'Distributor',`400${index}`)
+     shipment.retailer = factory.newRelationship(NS,'Retailer',`500${index}`)
+     shipment.consumer = factory.newRelationship(NS,'Consumer',`600${index}`)
+     shipment.product = factory.newRelationship(NS,'FishProduct',`FP_00${index}`)
+    
+      contracts.push(contract)
+      shipments.push(shipment)
+    });
+
+    
+    
+    //   let contract = factory.newResource(NS,'Contract','CN_001')
+    //   contract.processor=factory.newRelationship(NS,'Processor','3001')
+    //   contract.producer=factory.newRelationship(NS,'Producer','2001')
+    //   contract.distributor=factory.newRelationship(NS,'Distributor','4001')
+    //   let tomorrow = tx.timestamp
+    //   tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    //   contract.arrivalDate = tomorrow  
+    
+    //   contract.unitPrize = 0.5
+    //   contract.minTemperature =10
+    //   contract.maxTemperature = 20
+    //   contract.minPenality =0.1
+    //   contract.maxPenality =0.2
+    
+    //   let shipment = factory.newResource(NS,'Shipment','SP_001')
+      
+    //   shipment.type ="Salamon"
+    
+    //   shipment.status = "NOT_CREATED"
+    //   shipment.unitCount = 50
+    
+    //   shipment.contract = factory.newRelationship(NS,'Contract','CN_001')
+    //  shipment.distributor = factory.newRelationship(NS,'Distributor','4001')
+    //  shipment.retailer = factory.newRelationship(NS,'Retailer','5001')
+    //  shipment.consumer = factory.newRelationship(NS,'Consumer','6001')
+    //  shipment.product = factory.newRelationship(NS,'FishProduct','FP_001')
     
     
     //added participants  
     const fishermanParticipantRegistry = await getParticipantRegistry(NS+'.FisherMan');
     await fishermanParticipantRegistry.addAll(fisherMans)
     
-    // const processorParticipantRegistry = await getParticipantRegistry(NS+'.Processor');
-    // await processorParticipantRegistry.addAll(processor)
+    const processorParticipantRegistry = await getParticipantRegistry(NS+'.Processor');
+    await processorParticipantRegistry.addAll(processors)
     
     
-    // const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
-    // await producerParticipantRegistry.addAll(producer)
+    const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
+    await producerParticipantRegistry.addAll(producers)
     
     
-    // const distributorParticipantRegistry = await getParticipantRegistry(NS+'.Distributor');
-    // await distributorParticipantRegistry.addAll(distributor)
+    const distributorParticipantRegistry = await getParticipantRegistry(NS+'.Distributor');
+    await distributorParticipantRegistry.addAll(distributors)
     
-    // const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
-    // await retailerParticipantRegistry.addAll(retailer)
+    const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
+    await retailerParticipantRegistry.addAll(retailers)
     
-    // const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
-    // await consumerParticipantRegistry.addAll(consumer)
+    const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
+    await consumerParticipantRegistry.addAll(consumers)
     
-    // const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
-    // await fishProductAssetRegistery.addAll(fishProduct)
+    const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+    await fishProductAssetRegistery.addAll(fishProducts)
     
-    // const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
-    // await contractAssetRegistery.addAll(contract)
+    const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
+    await contractAssetRegistery.addAll(contracts)
     
-    // const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
-    // await shipmentAssetRegistery.addAll(shipment)
+    const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+    await shipmentAssetRegistery.addAll(shipments)
     
     
       
