@@ -134,18 +134,18 @@ async function initializeAllfn(tx) {
     
     let fisherMans = []
     
-    fishermanId.forEach(element => {
-        let Fisherman =  factory.newResouce(NS,'FisherMan','1001');
+    fishermanId.forEach((element,index) => {
+        let Fisherman =  factory.newResouce(NS,'FisherMan',element);
     let  fisherManAddress = factory.newConcept(NS,'Address')
-    fisherManAddress.city="london"
+    fisherManAddress.city=city[index]
     fisherManAddress.country = "United Kingdom"
-    fisherManAddress.street = "Finsbury park"
-    fisherManAddress.postCode = "N4 1EE"
+    fisherManAddress.street = street[index]
+    fisherManAddress.postCode = postCode[index]
 
-  Fisherman.email = "gohanthe@gmail.com"
+  Fisherman.email = email[index]
 
-  Fisherman.certificate ="ABC"
-  Fisherman.location ="Finsbury Park"
+  Fisherman.certificate =certificate[index]
+  Fisherman.location =location[index]
   Fisherman.role = "FISHERMAN"
   fisherMans.push(fisherMans)
     });
