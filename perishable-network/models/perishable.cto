@@ -78,7 +78,7 @@ asset FishProduct identified by productid {
   o String[] componentId
   o String id
   o String barcode
-  o String names
+  o String name
   o String placeoforigin
   o DateTime produceDate
   o DateTime expirationDate
@@ -96,17 +96,17 @@ asset FishProduct identified by productid {
 
 participant FisherMan identified by fid{
   o String fid
-  o String email
-  o Address address
-  o String certificate
-  o String location
-  o Role role default = "FISHERMAN"
+  o String email optional
+  o Address address optional
+  o String certificate optional
+  o String location optional
+  o Role role default = "FISHERMAN" optional
 }
 
 participant Producer identified by pid{
   o String pid
   o String email
-  o Address address
+  o Address address optional
   o String companyName
   o String fishermanId
   o Role role default = "PRODUCER"
@@ -116,8 +116,8 @@ participant  Processor extends Bussiness {}
 
 participant Distributor identified by Did {
   o String Did
-  o String Name
-   o String email
+  o String name
+  o String email
   o Role role default = "DISTRIBUTOR"
 }
 
@@ -161,7 +161,7 @@ transaction initializeAll {
 asset Shipment identified by shipmentId {
   o String shipmentId
   o ProductType type
-  o ShipmentStatus status default = "SHIPPMENT_NOT_CREATED"
+  o ShipmentStatus status default = "NOT_CREATED"
   o Long unitCount
   o TemperatureReading[] temperatureReadings optional
   --> Contract contract
