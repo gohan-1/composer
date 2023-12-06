@@ -201,10 +201,10 @@ asset Shipment identified by shipmentId {
 
 
 transaction TransferToProducer {
-  o Producer producer
-  o FishProduct fishProduct
+  --> Producer producer
+  --> FishProduct fishProduct
 }
 
 transaction queryAssetByassetId {
-  o FishProduct fishProduct
+  --> FishProduct fishProduct
 }

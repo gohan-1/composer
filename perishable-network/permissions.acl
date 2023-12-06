@@ -4,6 +4,14 @@
  * Sample access control list.
  */
 
+rule tramsferToProducerTX{
+  description: "Transfer ownerShip"
+  participant: "org.fishDepartment.shipping.net.FisherMan"
+  operation: ALL
+  resource: "org.fishDepartment.shipping.net.FishProduct"
+  transaction: "org.fishDepartment.shipping.net.TransferToProducer"
+  action: ALLOW
+}
 
 rule consumerCanSeeTheirShipment{
 	description: "Allow fisherman to se"
