@@ -20,6 +20,24 @@ function checkProfileforProccessorandFisherMan(role){
   console.log(role)
     return  (role == "PROCESSOR")
   }
+
+
+  /**
+* @param {org.fishDepartment.shipping.net.queryAssetByassetId} fishProduct 
+ * @transaction
+ */
+async function queryAsset(tx){
+  const assetId = tx.fishProduct.getIdentifier()
+
+  const result = await query('assetDetails',{'productid' : assetId})
+
+  if (result.length !=1) throw new Error(' asset details missmatching ') 
+  result.forEach(item => {
+    console.log(item)
+    return item
+    
+  });
+}
   
   /* global getParticipantRegistry getAssetRegistry getFactory */
   
@@ -152,7 +170,7 @@ FishermanId.forEach((element,index) => {
   
   
   
-    fishProduct.shipmentStatus ="NOT_CREATED"
+    fishProduct.productStatus ="CREATED"
     fishProduct.owner = factory.newRelationship(NS,'FisherMan',`100${index}`)
    
     fishProduct.producer = factory.newRelationship(NS,'Producer',`200${index}`)
@@ -308,7 +326,7 @@ async function addNewFishProductFn(tx){
   
   
   
-    fishProduct.shipmentStatus =tx.shipmentStatus
+    fishProduct.productStatus =tx.productStatus
     fishProduct.owner = factory.newRelationship(NS,'FisherMan',id)
    
     fishProduct.producer = factory.newRelationship(NS,'Producer',`0000`)
@@ -316,5 +334,64 @@ async function addNewFishProductFn(tx){
     fishProduct.processor = factory.newRelationship(NS,'Processor',`0000`)
     const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
     await fishProductAssetRegistery.addAll([fishProduct])
+  
+}
+
+
+
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.TransferToProducer} TransferToProducerFn - no params
+ * @transaction
+ */
+
+async function TransferToProducerFn(tx){
+  let factory = getFactory();
+
+  const fisherManId= getCurrentParticipant()  
+// only fisherman can do this  have to wrte rule
+
+
+
+  
+  
+  const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
+
+  let exist = producerParticipantRegistry.exists(tx.producer.getIdentifier());
+  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+
+  
+
+
+  if(exist){
+    const assetDetails = queryAsset(tx)
+
+
+    
+    //  query the details fishProduct
+    let product = assetDetails
+
+
+    if(product.productStatus == 'CREATED'){
+      
+      product.producer = tx.producer.getIdentifier()
+      product.productStatus = "IN_PRODUCTION"
+      fishProductAssetRegistery.update(product)
+    }else{
+      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+    }
+
+
+
+  }else{
+    throw new Error('Producer does not exist, please check the producer id')
+  }
+
+
+
+
+
+
   
 }

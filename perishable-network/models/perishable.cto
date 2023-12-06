@@ -43,6 +43,15 @@ enum ShipmentStatus{
   o ARRIVED
 }
 
+enum ProductStatus{
+  o NOT_CREATED
+  o CREATED
+  o IN_PRODUCTION
+  o IN_PROCESSING
+  o PROCESSED
+}
+
+
 enum Role{
   o FISHERMAN
   o PRODUCER
@@ -87,7 +96,7 @@ asset FishProduct identified by productid {
   o String batchQuantity
   o String unitPrice 
   o ProductLocation productLocation
-  o ShipmentStatus shipmentStatus  default ="NOT_CREATED"
+  o ProductStatus productStatus  default ="CREATED"
   --> FisherMan owner
   --> Producer producer
   -->Processor processor
@@ -173,7 +182,7 @@ transaction addNewFishProduct {
   o String batchQuantity
   o String unitPrice 
   o String location
-  o String shipmentStatus  default ="NOT_CREATED"
+  o String productStatus  default ="CREATED"
 
 }
 
@@ -188,4 +197,14 @@ asset Shipment identified by shipmentId {
   --> Retailer retailer
   --> Consumer consumer
   --> FishProduct product
+}
+
+
+transaction TransferToProducer {
+  o Producer producer
+  o FishProduct fishProduct
+}
+
+transaction queryAssetByassetId {
+  o FishProduct fishProduct
 }
