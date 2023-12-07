@@ -31,8 +31,10 @@ async function queryAsset(tx){
 
   const result = await query('assetDetails',{'productid' : assetId})
 
-  if (result.length !=1) throw new Error(' asset details missmatching ') 
+  if (result.length !=1) throw new Error(' asset details missmatching ')
+  return result
   result.forEach(item => {
+    console.log('+++=++++++')
     console.log(item)
     return item
     
@@ -358,6 +360,7 @@ async function TransferToProducerFn(tx){
   
   const producerParticipantRegistry = await getParticipantRegistry(NS+'.Producer');
 
+  
   let exist = producerParticipantRegistry.exists(tx.producer.getIdentifier());
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
 
@@ -365,17 +368,20 @@ async function TransferToProducerFn(tx){
 
 
   if(exist){
-    const assetDetails = queryAsset(tx)
+    const assetDetails =await queryAsset(tx)
 
-
+ 
     
     //  query the details fishProduct
-    let product = assetDetails
-
-
+   
+		console.log('----------------------------------------')
+	let product =	await queryAsset(tx)
+    console.log(product)
+    product=product[0]
+    
     if(product.productStatus == 'CREATED'){
       
-      product.producer = tx.producer.getIdentifier()
+      product.producer = tx.producer
       product.productStatus = "IN_PRODUCTION"
       fishProductAssetRegistery.update(product)
     }else{

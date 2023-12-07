@@ -1,0 +1,5 @@
+query assetDetails{
+  description:"quering fishDepartment assetDetails"
+  statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(productid == _$productid)
+
+}

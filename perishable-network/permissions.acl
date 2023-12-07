@@ -8,7 +8,7 @@ rule tramsferToProducerTX{
   description: "Transfer ownerShip"
   participant: "org.fishDepartment.shipping.net.FisherMan"
   operation: ALL
-  resource: "org.fishDepartment.shipping.net.FishProduct"
+  resource: "org.fishDepartment.shipping.net.TransferToProducer"
   transaction: "org.fishDepartment.shipping.net.TransferToProducer"
   action: ALLOW
 }
@@ -75,7 +75,7 @@ rule distributorcanseeThireasset{
 rule fishermancanseeThireasset{
 	description: "Allow fisherman to se"
      participant(p): "org.fishDepartment.shipping.net.FisherMan"
-     operation: READ,UPDATE
+     operation: READ,UPDATE,CREATE
      resource(r): "org.fishDepartment.shipping.net.FishProduct"
   	 condition: (p.getIdentifier()==r.owner.getIdentifier())
      action: ALLOW

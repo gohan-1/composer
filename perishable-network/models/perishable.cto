@@ -201,8 +201,8 @@ asset Shipment identified by shipmentId {
 
 
 transaction TransferToProducer {
-  --> Producer producer
-  --> FishProduct fishProduct
+ --> Producer producer
+ --> FishProduct fishProduct
 }
 
 transaction queryAssetByassetId {
