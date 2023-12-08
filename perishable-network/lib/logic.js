@@ -42,22 +42,7 @@ async function queryAsset(tx){
 }
 
 
-  /**
-* @param {org.fishDepartment.shipping.net.queryAssetByParticipant} participant 
- * @transaction
- */
-async function queryAssetByParticipant(participant,role){
 
-  let resource = "resource:"+participant.getFullyQualifiedIdentifier()
-
-let result = []
-if(role == 'PRODUCER'){
-result = await query('assetDetailsbyProducer',{"producer": resource})
-}else{
-   result = await query('assetDetailsbyProcessor',{"processor": resource})
-}
-return result
-}
 
 
   
@@ -435,11 +420,11 @@ async function TransferToProducerFn(tx){
 
   const particpantDetails= getCurrentParticipant()  
 // only fisherman can do this  have to wrte rule
+console.log(particpantDetails)
 
-  const participant = particpantDetails.split('#')[0]
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
 
-  if(participant == org.fishDepartment.shipping.net.Producer){
+  if(particpantDetails.role=== "PRODUCER"){
 
   const assetDetails = tx.fishDepartment  
 
@@ -470,7 +455,7 @@ async function TransferToProducerFn(tx){
 
   }else if(participant == org.fishDepartment.shipping.net.Processor){
     if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
-      assetDetails.productStatus = "IN_PRODUCTION"
+      assetDetails.productStatus = "IN_PROCESSING"
       const previousloc =  assetDetails.productLocation.currentState.location
       const previousDate = assetDetails.productLocation.currentState.arrivalDate
       const previousObject = {
@@ -492,6 +477,5 @@ async function TransferToProducerFn(tx){
     throw new Error('particpiant having wrong credential')
   }
 
-  console.log(fishermanDetails)
 
 }
