@@ -3,3 +3,15 @@ query assetDetails{
   statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(productid == _$productid)
 
 }
+
+query assetDetailsbyProducer{
+  description:"quering fishDepartment assetDetails"
+  statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(producer == _$producer)
+
+}
+
+query assetDetailsbyProcessor{
+  description:"quering fishDepartment assetDetails"
+  statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(processor == _$processor)
+
+}

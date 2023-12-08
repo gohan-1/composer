@@ -40,6 +40,26 @@ async function queryAsset(tx){
     
   });
 }
+
+
+  /**
+* @param {org.fishDepartment.shipping.net.queryAssetByParticipant} participant 
+ * @transaction
+ */
+async function queryAssetByParticipant(participant,role){
+
+  let resource = "resource:"+participant.getFullyQualifiedIdentifier()
+
+let result = []
+if(role == 'PRODUCER'){
+result = await query('assetDetailsbyProducer',{"producer": resource})
+}else{
+   result = await query('assetDetailsbyProcessor',{"processor": resource})
+}
+return result
+}
+
+
   
   /* global getParticipantRegistry getAssetRegistry getFactory */
   
@@ -401,9 +421,77 @@ async function TransferToProducerFn(tx){
   }
 
 
-
-
-
-
   
+}
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.productRecieved} productRecievedFn - no params
+ * @transaction
+ */
+async function TransferToProducerFn(tx){
+
+ let factory = getFactory();
+
+  const particpantDetails= getCurrentParticipant()  
+// only fisherman can do this  have to wrte rule
+
+  const participant = particpantDetails.split('#')[0]
+  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+
+  if(participant == org.fishDepartment.shipping.net.Producer){
+
+  const assetDetails = tx.fishDepartment  
+
+//  let result = await queryAssetByParticipant(particpantDetails,particpantDetails.role)
+//  let flag =0 
+
+  if(assetDetails.producer.getIdentifier() ==  particpantDetails.getIdentifier() ){
+    assetDetails.productStatus = "IN_PRODUCTION"
+    const previousloc =  assetDetails.productLocation.currentState.location
+    const previousDate = assetDetails.productLocation.currentState.arrivalDate
+    const previousObject = {
+      "location" : previousloc,
+      "arrivalDate" :previousDate
+    }
+    assetDetails.productLocation.previousState.push(previousObject)
+
+    assetDetails.productLocation.currentState.location = tx.location
+    assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
+    
+    fishProductAssetRegistery.update(assetDetails)
+
+  }else{
+    throw new Error('Identifier miss match')
+  }
+
+
+
+
+  }else if(participant == org.fishDepartment.shipping.net.Processor){
+    if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
+      assetDetails.productStatus = "IN_PRODUCTION"
+      const previousloc =  assetDetails.productLocation.currentState.location
+      const previousDate = assetDetails.productLocation.currentState.arrivalDate
+      const previousObject = {
+        "location" : previousloc,
+        "arrivalDate" :previousDate
+      }
+      assetDetails.productLocation.previousState.push(previousObject)
+  
+      assetDetails.productLocation.currentState.location = tx.location
+      assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
+      
+      fishProductAssetRegistery.update(assetDetails)
+    }else{
+      throw new Error('Identifier miss match')
+    }
+  
+    
+  }else{
+    throw new Error('particpiant having wrong credential')
+  }
+
+  console.log(fishermanDetails)
+
 }
