@@ -148,6 +148,16 @@ abstract transaction ShipmentTransaction {
   --> Shipment shipment
 }
 
+
+
+abstract transaction ProductTransaction {
+  --> FishProduct fishDepartment
+}
+
+transaction productRecieved{
+}
+
+
 /**
  * An temperature reading for a shipment. E.g. received from a
  * device within a temperature controlled shipping container
