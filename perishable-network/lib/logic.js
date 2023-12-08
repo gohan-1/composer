@@ -351,10 +351,11 @@ async function addNewFishProductFn(tx){
 async function TransferToProducerFn(tx){
   let factory = getFactory();
 
-  const fisherManId= getCurrentParticipant()  
+  const fishermanDetails= getCurrentParticipant()  
 // only fisherman can do this  have to wrte rule
 
 
+  console.log(fishermanDetails)
 
   
   
@@ -376,13 +377,18 @@ async function TransferToProducerFn(tx){
    
 		console.log('----------------------------------------')
 	let product =	await queryAsset(tx)
-    console.log(product)
+   
     product=product[0]
     
-    if(product.productStatus == 'CREATED'){
+    console.log( product.owner.getIdentifier())
+    
+    let fisherman = "resourece:"+fishermanDetails.getFullyQualifiedIdentifier()
+    
+    console.log(fishermanDetails.getIdentifier())
+    if(product.productStatus == 'CREATED' && product.owner.getIdentifier() == fishermanDetails.getIdentifier()){
       
       product.producer = tx.producer
-      product.productStatus = "IN_PRODUCTION"
+   
       fishProductAssetRegistery.update(product)
     }else{
       throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
