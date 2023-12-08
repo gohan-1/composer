@@ -433,16 +433,31 @@ console.log(particpantDetails)
 
   if(assetDetails.producer.getIdentifier() ==  particpantDetails.getIdentifier() ){
     assetDetails.productStatus = "IN_PRODUCTION"
-    const previousloc =  assetDetails.productLocation.currentState.location
-    const previousDate = assetDetails.productLocation.currentState.arrivalDate
-    const previousObject = {
-      "location" : previousloc,
-      "arrivalDate" :previousDate
-    }
-    assetDetails.productLocation.previousState.push(previousObject)
+    let  productLocation = factory.newConcept(NS,'ProductLocation')
+    let currentState = factory.newConcept(NS,'CurrentState')
+    let previousStates=factory.newConcept(NS,'PreviousState')
+   
+    previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
+    previousStates.location = assetDetails.productLocation.currentState.location
+    productLocation.previousState.push(previousStates)
 
-    assetDetails.productLocation.currentState.location = tx.location
-    assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
+    currentState.location = tx.location
+    currentState.arrivalDate = tx.timestamp
+
+    productLocation.currentState =currentState
+
+    assetDetails.productLocation = productLocation
+
+    // const previousloc =  assetDetails.productLocation.currentState.location
+    // const previousDate = assetDetails.productLocation.currentState.arrivalDate
+    // const previousObject = {
+    //   "location" : previousloc,
+    //   "arrivalDate" :previousDate
+    // }
+    // assetDetails.productLocation.previousState.push(previousObject)
+
+    // assetDetails.productLocation.currentState.location = tx.location
+    // assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
     
     fishProductAssetRegistery.update(assetDetails)
 
@@ -456,17 +471,34 @@ console.log(particpantDetails)
   }else if(participant == org.fishDepartment.shipping.net.Processor){
     if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
       assetDetails.productStatus = "IN_PROCESSING"
-      const previousloc =  assetDetails.productLocation.currentState.location
-      const previousDate = assetDetails.productLocation.currentState.arrivalDate
-      const previousObject = {
-        "location" : previousloc,
-        "arrivalDate" :previousDate
-      }
-      assetDetails.productLocation.previousState.push(previousObject)
+      // const previousloc =  assetDetails.productLocation.currentState.location
+      // const previousDate = assetDetails.productLocation.currentState.arrivalDate
+      // const previousObject = {
+      //   "location" : previousloc,
+      //   "arrivalDate" :previousDate
+      // }
+      // assetDetails.productLocation.previousState.push(previousObject)
   
-      assetDetails.productLocation.currentState.location = tx.location
-      assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
+      // assetDetails.productLocation.currentState.location = tx.location
+      // assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
       
+      let  productLocation = factory.newConcept(NS,'ProductLocation')
+      let currentState = factory.newConcept(NS,'CurrentState')
+      let previousStates=factory.newConcept(NS,'PreviousState')
+     
+      previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
+      previousStates.location = assetDetails.productLocation.currentState.location
+      productLocation.previousState.push(previousStates)
+  
+      currentState.location = tx.location
+      currentState.arrivalDate = tx.timestamp
+  
+      productLocation.currentState =currentState
+  
+      assetDetails.productLocation = productLocation
+  
+
+
       fishProductAssetRegistery.update(assetDetails)
     }else{
       throw new Error('Identifier miss match')
