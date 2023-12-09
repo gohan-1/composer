@@ -420,7 +420,7 @@ async function TransferToProducerFn(tx){
 
   const particpantDetails= getCurrentParticipant()  
 // only fisherman can do this  have to wrte rule
-console.log(particpantDetails)
+let previoustateArray = []
 
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
 
@@ -436,10 +436,20 @@ console.log(particpantDetails)
     let  productLocation = factory.newConcept(NS,'ProductLocation')
     let currentState = factory.newConcept(NS,'CurrentState')
     let previousStates=factory.newConcept(NS,'PreviousState')
+    
+    
    
-    previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
+   
+    
+    
+  
+    
+     previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
     previousStates.location = assetDetails.productLocation.currentState.location
-    productLocation.previousState.push(previousStates)
+
+  
+    
+    productLocation.previousState=[previousStates]
 
     currentState.location = tx.location
     currentState.arrivalDate = tx.timestamp
@@ -447,7 +457,7 @@ console.log(particpantDetails)
     productLocation.currentState =currentState
 
     assetDetails.productLocation = productLocation
-
+    assetDetails.history.push(assetDetails.productLocation.currentState.location)
     // const previousloc =  assetDetails.productLocation.currentState.location
     // const previousDate = assetDetails.productLocation.currentState.arrivalDate
     // const previousObject = {
@@ -488,8 +498,10 @@ console.log(particpantDetails)
      
       previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
       previousStates.location = assetDetails.productLocation.currentState.location
-      productLocation.previousState.push(previousStates)
-  
+     
+      assetDetails.push(assetDetails.productLocation.currentState.location)
+     // productLocation.previousState=[previousStates]
+    assetDetails.productLocation.previousState=[previousStates]
       currentState.location = tx.location
       currentState.arrivalDate = tx.timestamp
   
@@ -497,6 +509,7 @@ console.log(particpantDetails)
   
       assetDetails.productLocation = productLocation
   
+      
 
 
       fishProductAssetRegistery.update(assetDetails)

@@ -95,6 +95,7 @@ asset FishProduct identified by productid {
   o ProductType type
   o String batchQuantity
   o String unitPrice 
+  o String[] history optional
   o ProductLocation productLocation
   o ProductStatus productStatus  default ="CREATED"
   --> FisherMan owner
