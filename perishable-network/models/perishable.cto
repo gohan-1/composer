@@ -217,6 +217,12 @@ transaction TransferToProducer {
  --> FishProduct fishProduct
 }
 
+
+transaction TransferToProcesor {
+ --> Processor processor
+ --> FishProduct fishProduct
+}
+
 transaction queryAssetByassetId {
   --> FishProduct fishProduct
 }

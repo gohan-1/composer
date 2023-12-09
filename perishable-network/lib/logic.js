@@ -524,3 +524,68 @@ let previoustateArray = []
 
 
 }
+
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.TransferToProcesor} TransferToProcesorFn - no params
+ * @transaction
+ */
+
+
+async function TransferToProcesorFn(tx){
+
+  let factory = getFactory();
+
+  const producerDetails= getCurrentParticipant()  
+// only fisherman can do this  have to wrte rule
+
+
+  console.log(producerDetails)
+
+  
+  
+  const processorParticipantRegistry = await getParticipantRegistry(NS+'.Processor');
+
+  
+  let exist = processorParticipantRegistry.exists(tx.processor.getIdentifier());
+  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+
+  
+
+
+  if(exist){
+
+ 
+    
+    //  query the details fishProduct
+   
+		console.log('----------------------------------------')
+	let product =	await queryAsset(tx)
+   
+    product=product[0]
+    
+    
+
+    
+    console.log(fishermanDetails.getIdentifier())
+    if(product.productStatus == 'IN_PRODUCTION' && product.producer.getIdentifier() == producerDetails.getIdentifier()){
+      
+      product.processor = tx.processor
+   
+      fishProductAssetRegistery.update(product)
+    }else{
+      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+    }
+
+
+
+  }else{
+    throw new Error('Producer does not exist, please check the producer id')
+  }
+
+
+
+
+
+}
