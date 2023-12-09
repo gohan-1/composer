@@ -3,6 +3,26 @@
 /**
  * Sample access control list.
  */
+rule productRecievedDENYTx{
+  description: "Transfer ownerShip"
+  participant: "org.fishDepartment.shipping.net.FisherMan"
+  operation: ALL
+  resource: "org.fishDepartment.shipping.net.productRecieved"
+  transaction: "org.fishDepartment.shipping.net.productRecieved"
+  action: DENY
+}
+
+rule productRecievedAllowTx{
+  description: "Transfer ownerShip"
+  participant: "ANY"
+  operation: ALL
+  resource: "org.fishDepartment.shipping.net.productRecieved"
+  transaction: "org.fishDepartment.shipping.net.productRecieved"
+  action: ALLOW
+}
+
+
+
 
 rule tramsferToProducerTX{
   description: "Transfer ownerShip"

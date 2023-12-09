@@ -414,7 +414,7 @@ async function TransferToProducerFn(tx){
  * @param {org.fishDepartment.shipping.net.productRecieved} productRecievedFn - no params
  * @transaction
  */
-async function TransferToProducerFn(tx){
+async function productRecievedFn(tx){
 
  let factory = getFactory();
 
