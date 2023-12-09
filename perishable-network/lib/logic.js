@@ -345,6 +345,44 @@ async function addNewFishProductFn(tx){
 }
 
 
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.addNewShipment} addNewShipmentFn - no params
+ * @transaction
+ */
+
+async function addNewShipmentFn(tx){
+  let factory = getFactory();
+
+  const id = getCurrentParticipant()  
+  
+  let shipment = factory.newResource(NS,'Shipment',tx.shipmentId)
+    
+   
+    shipment.type= tx.type
+    shipment.unitCount =tx.unitCount
+    shipment.batchId = tx.batchId 
+    shipment.status = tx.status
+   
+
+  
+  
+    shipment.Distributor =factory.newRelationship(NS,'Distributor',tx.distributor)
+
+   
+    shipment.producer = factory.newRelationship(NS,'Retailer',`0000`)
+     
+    shipment.processor = factory.newRelationship(NS,'Consumer',`0000`)
+
+    shipment.product = factory.newRelationship(NS,'Shipment',tx.product)
+
+
+    const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+    await shipmentAssetRegistery.add(shipment)
+}
+
+
+
 
 
 /**

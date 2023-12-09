@@ -61,18 +61,6 @@ enum Role{
   o CONSUMER
 }
 
-asset Contract identified by contractId {
-  o String contractId 
-  -->  Producer producer
-  -->  Processor processor
-  -->  Distributor distributor
-  o DateTime arrivalDate
-  o Double unitPrize
-  o Double minTemperature
-  o Double maxTemperature
-  o Double minPenality 
-  o Double maxPenality 
-}
 
 
 abstract participant Bussiness identified by processId {
@@ -91,7 +79,6 @@ asset FishProduct identified by productid {
   o String placeoforigin
   o DateTime produceDate
   o DateTime expirationDate
-  o String batchId
   o ProductType type
   o String batchQuantity
   o String unitPrice 
@@ -189,7 +176,6 @@ transaction addNewFishProduct {
   o String placeoforigin
   o DateTime produceDate
   o DateTime expirationDate
-  o String batchId
   o ProductType type
   o String batchQuantity
   o String unitPrice 
@@ -203,14 +189,27 @@ asset Shipment identified by shipmentId {
   o ProductType type
   o ShipmentStatus status default = "NOT_CREATED"
   o Long unitCount
+  o String batchId
   o TemperatureReading[] temperatureReadings optional
-  --> Contract contract
   --> Distributor distributor
   --> Retailer retailer
   --> Consumer consumer
   --> FishProduct product
 }
 
+
+transaction addNewShipment {
+  o String shipmentId
+  o ProductType type
+  o ShipmentStatus status default = "NOT_CREATED"
+  o Long unitCount
+  o String batchId
+  o TemperatureReading[] temperatureReadings optional
+  --> Distributor distributor
+  --> Retailer retailer
+  --> Consumer consumer
+  --> FishProduct product
+}
 
 transaction TransferToProducer {
  --> Producer producer
