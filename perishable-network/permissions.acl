@@ -12,6 +12,15 @@ rule productRecievedDENYTx{
   action: DENY
 }
 
+rule addNewShipmentx{
+  description: "Add new shipment by processor"
+  participant: "org.fishDepartment.shipping.net.Processor"
+  operation: CREATE,READ
+  resource: "org.fishDepartment.shipping.net.Shipment"
+  transaction: "org.fishDepartment.shipping.net.addNewShipment"
+  action: DENY
+}
+
 rule productRecievedAllowTx{
   description: "Transfer ownerShip"
   participant: "ANY"
