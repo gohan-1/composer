@@ -336,8 +336,8 @@ async function createFishProductFn(tx){
   
   
     fishProduct.productStatus =tx.productStatus
-    fishProduct.owner = factory.newRelationship(NS,'FisherMan',id)
-   
+    fishProduct.owner = factory.newRelationship(NS,'FisherMan',id.getIdentifier())
+   	fishProduct.history = [tx.location]
     fishProduct.producer = factory.newRelationship(NS,'Producer',`0000`)
      
     fishProduct.processor = factory.newRelationship(NS,'Processor',`0000`)
@@ -518,7 +518,7 @@ let previoustateArray = []
      
       assetDetails.history.push(assetDetails.productLocation.currentState.location)
    
-    assetDetails.productLocation.previousState=[previousStates]
+    productLocation.previousState=[previousStates]
       currentState.location = tx.location
       currentState.arrivalDate = tx.timestamp
   
