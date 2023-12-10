@@ -4,7 +4,7 @@
      * Sample access control list.
      */
 
-
+	
 
     rule ConsumeTX{
       description: "Transfer ownerShip"
@@ -41,6 +41,15 @@
      operation: ALL
      resource: "org.fishDepartment.shipping.net.ShipmentReceived"
      transaction: "org.fishDepartment.shipping.net.ShipmentReceived"
+     action: ALLOW
+     }
+
+   	rule createProducttx{
+     description: "Add new shipment by processor"
+     participant: "org.fishDepartment.shipping.net.FisherMan"
+     operation: CREATE,READ
+     resource: "org.fishDepartment.shipping.net.createFishProduct"
+     transaction: "org.fishDepartment.shipping.net.createFishProduct"
      action: ALLOW
      }
 
