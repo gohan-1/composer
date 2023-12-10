@@ -79,14 +79,14 @@ rule productStatusRule{
 
 
 
-     rule createShipmentx{
-     description: "Add new shipment by processor"
-     participant: "org.fishDepartment.shipping.net.Processor"
-     operation: CREATE,READ
-     resource: "org.fishDepartment.shipping.net.createShipment"
-     transaction: "org.fishDepartment.shipping.net.createShipment"
-     action: ALLOW
-     }
+     // rule createShipmentx{
+     // description: "Add new shipment by processor"
+     // participant: "org.fishDepartment.shipping.net.Processor"
+     // operation: CREATE,READ
+     // resource: "org.fishDepartment.shipping.net.createShipment"
+     // transaction: "org.fishDepartment.shipping.net.createShipment"
+     // action: ALLOW
+     // }
 
      rule productRecievedAllowTx{
      description: "Transfer ownerShip"
@@ -118,43 +118,43 @@ rule productStatusRule{
      action: ALLOW
      }
 
-     rule consumerCanSeeTheirShipment{
-          description: "Allow fisherman to se"
-          participant(p): "org.fishDepartment.shipping.net.Consumer"
-          operation: READ,UPDATE
-          resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.consumer.getIdentifier())
-          action: ALLOW
-     }
+     // rule consumerCanSeeTheirShipment{
+     //      description: "Allow fisherman to se"
+     //      participant(p): "org.fishDepartment.shipping.net.Consumer"
+     //      operation: READ,UPDATE
+     //      resource(r): "org.fishDepartment.shipping.net.Shipment"
+     //      condition: (p.getIdentifier()==r.consumer.getIdentifier())
+     //      action: ALLOW
+     // }
 
 
-     rule retailerCanSeeTheirShipment{
-          description: "Allow fisherman to se"
-          participant(p): "org.fishDepartment.shipping.net.Retailer"
-          operation: READ,UPDATE
-          resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.retailer.getIdentifier())
-          action: ALLOW
-     }
+     // rule retailerCanSeeTheirShipment{
+     //      description: "Allow fisherman to se"
+     //      participant(p): "org.fishDepartment.shipping.net.Retailer"
+     //      operation: READ,UPDATE
+     //      resource(r): "org.fishDepartment.shipping.net.Shipment"
+     //      condition: (p.getIdentifier()==r.retailer.getIdentifier())
+     //      action: ALLOW
+     // }
 
 
-     rule distributorCanSeeTheirShipment{
-          description: "Allow fisherman to se"
-          participant(p): "org.fishDepartment.shipping.net.Distributor"
-          operation: READ,UPDATE
-          resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.distributor.getIdentifier())
-          action: ALLOW
-     }
+     // rule distributorCanSeeTheirShipment{
+     //      description: "Allow fisherman to se"
+     //      participant(p): "org.fishDepartment.shipping.net.Distributor"
+     //      operation: READ,UPDATE
+     //      resource(r): "org.fishDepartment.shipping.net.Shipment"
+     //      condition: (p.getIdentifier()==r.distributor.getIdentifier())
+     //      action: ALLOW
+     // }
 
-     rule consumercanseeThireasset{
-          description: "Allow fisherman to se"
-          participant(p): "org.fishDepartment.shipping.net.Consumer"
-          operation: READ,UPDATE
-          resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.owner.getIdentifier())
-          action: ALLOW
-     }
+     // rule consumercanseeThireasset{
+     //      description: "Allow fisherman to se"
+     //      participant(p): "org.fishDepartment.shipping.net.Consumer"
+     //      operation: READ,UPDATE
+     //      resource(r): "org.fishDepartment.shipping.net.Shipment"
+     //      condition: (p.getIdentifier()==r.owner.getIdentifier())
+     //      action: ALLOW
+     // }
 
      rule retailercanseeThireasset{
           description: "Allow fisherman to se"
@@ -297,37 +297,37 @@ rule productStatusRule{
 
 
 
-     rule CreateAsset {
-          description: "Allow producer and fisherman to create asset"
-          participant(p): "org.hyperledger.composer.system.Participant"
-          operation: CREATE
-          resource(r): "org.fishDepartment.shipping.net.FishProduct"
-          condition: ( checkProfileforProccessorandFisherMan(p.role) )
-          action: ALLOW
-     }
+     // rule CreateAsset {
+     //      description: "Allow producer and fisherman to create asset"
+     //      participant(p): "org.hyperledger.composer.system.Participant"
+     //      operation: CREATE
+     //      resource(r): "org.fishDepartment.shipping.net.FishProduct"
+     //      condition: ( checkProfileforProccessorandFisherMan(p.role) )
+     //      action: ALLOW
+     // }
 
 
 
-     rule SystemACL {
-          description:  "System ACL to permit all access"
-          participant: "ANY"
-          operation: ALL
-          resource: "org.hyperledger.composer.system.**"
-          action: ALLOW
-     }
+     // rule SystemACL {
+     //      description:  "System ACL to permit all access"
+     //      participant: "ANY"
+     //      operation: ALL
+     //      resource: "org.hyperledger.composer.system.**"
+     //      action: ALLOW
+     // }
 
-     rule NetworkAdminUser {
-          description: "Grant business network administrators full access to user resources"
-          participant: "org.hyperledger.composer.system.NetworkAdmin"
-          operation: ALL
-          resource: "**"
-     action: ALLOW
-     }
+     // rule NetworkAdminUser {
+     //      description: "Grant business network administrators full access to user resources"
+     //      participant: "org.hyperledger.composer.system.NetworkAdmin"
+     //      operation: ALL
+     //      resource: "**"
+     // action: ALLOW
+     // }
 
-     rule NetworkAdminSystem {
-          description: "Grant business network administrators full access to system resources"
-          participant: "org.hyperledger.composer.system.NetworkAdmin"
-          operation: ALL
-          resource: "org.hyperledger.composer.system.**"
-          action: ALLOW
-     }
+     // rule NetworkAdminSystem {
+     //      description: "Grant business network administrators full access to system resources"
+     //      participant: "org.hyperledger.composer.system.NetworkAdmin"
+     //      operation: ALL
+     //      resource: "org.hyperledger.composer.system.**"
+     //      action: ALLOW
+     // }
