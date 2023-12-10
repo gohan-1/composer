@@ -621,7 +621,7 @@ async function shipmentReceivedFn(tx){
     //  let flag =0 
     
       if(assetDetails.retailer.getIdentifier() ==  particpantDetails.getIdentifier() ){
-      // const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
+      // // const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
       console.log(assetDetails.product)
      let product =	await queryAsset(assetDetails.product)
    
