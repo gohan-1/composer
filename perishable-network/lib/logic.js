@@ -151,7 +151,7 @@ producerId.forEach((element,index) => {
 let fishProducts = []
 
 FishermanId.forEach((element,index) => {
-    let fishProduct = factory.newResource(NS,'FishProduct',`FP_00${index}`)
+    let fishProduct = factory.newResource(NS,'FishProduct',`FP_000${index}`)
     fishProduct.componentId = [`123${index}`]
     fishProduct.id = `45${index}`
     fishProduct.barcode= `abcde${index}`
@@ -161,7 +161,6 @@ FishermanId.forEach((element,index) => {
     fishProduct.expirationDate = tx.timestamp 
     fishProduct.type= "Salamon"
     fishProduct.batchQuantity ="100"
-    fishProduct.batchId = `B${index}`
     fishProduct.unitPrice  ="100"
     let  productLocation = factory.newConcept(NS,'ProductLocation')
     let currentState = factory.newConcept(NS,'CurrentState')
@@ -179,10 +178,10 @@ FishermanId.forEach((element,index) => {
   
     fishProduct.productStatus ="CREATED"
     fishProduct.owner = factory.newRelationship(NS,'FisherMan',`100${index}`)
-   
-    fishProduct.producer = factory.newRelationship(NS,'Producer',`200${index}`)
+   	fishProduct.history = ["A"]
+    fishProduct.producer = factory.newRelationship(NS,'Producer',`000${index}`)
      
-    fishProduct.processor = factory.newRelationship(NS,'Processor',`300${index}`)
+    fishProduct.processor = factory.newRelationship(NS,'Processor',`000${index}`)
    fishProducts.push(fishProduct)
 });
   
@@ -192,39 +191,27 @@ FishermanId.forEach((element,index) => {
 
   
  
-  let contracts = []
+
   let shipments =[]
 FishermanId.forEach((element,index) => {
 
-  let contract = factory.newResource(NS,'Contract',`CN_00${index}`)
-  contract.processor=factory.newRelationship(NS,'Processor',`300${index}`)
-  contract.producer=factory.newRelationship(NS,'Producer',`200${index}`)
-  contract.distributor=factory.newRelationship(NS,'Distributor',`400${index}`)
-  let tomorrow = tx.timestamp
-  tomorrow.setDate(tomorrow.getDate() + 1);
 
-  contract.arrivalDate = tomorrow  
 
-  contract.unitPrize = 0.5
-  contract.minTemperature =10
-  contract.maxTemperature = 20
-  contract.minPenality =0.1
-  contract.maxPenality =0.2
-
-  let shipment = factory.newResource(NS,'Shipment',`SP_00${index}`)
+  let shipment = factory.newResource(NS,'Shipment',`SP_000${index}`)
   
   shipment.type ="Salamon"
 
   shipment.status = "NOT_CREATED"
+  shipment.batchId = "1"
   shipment.unitCount = 50+index
 
-  shipment.contract = factory.newRelationship(NS,'Contract',`CN_00${index}`)
+
  shipment.distributor = factory.newRelationship(NS,'Distributor',`400${index}`)
  shipment.retailer = factory.newRelationship(NS,'Retailer',`500${index}`)
  shipment.consumer = factory.newRelationship(NS,'Consumer',`600${index}`)
  shipment.product = factory.newRelationship(NS,'FishProduct',`FP_00${index}`)
 
-  contracts.push(contract)
+
   shipments.push(shipment)
 });
 
@@ -256,8 +243,7 @@ await consumerParticipantRegistry.addAll(consumers)
 const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
 await fishProductAssetRegistery.addAll(fishProducts)
 
-const contractAssetRegistery =  await getAssetRegistry(NS+'.Contract')
-await contractAssetRegistery.addAll(contracts)
+
 
 const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
 await shipmentAssetRegistery.addAll(shipments)
@@ -315,7 +301,7 @@ async function addNewFishProductFn(tx){
     fishProduct.expirationDate = tx.timestamp 
     fishProduct.type= tx.type
     fishProduct.batchQuantity =tx.batchQuantity
-    fishProduct.batchId = tx.batchId 
+
     fishProduct.unitPrice  = tx.unitPrice
     let  productLocation = factory.newConcept(NS,'ProductLocation')
     let currentState = factory.newConcept(NS,'CurrentState')
@@ -367,14 +353,14 @@ async function addNewShipmentFn(tx){
 
   
   
-    shipment.Distributor =factory.newRelationship(NS,'Distributor',tx.distributor)
+    shipment.distributor =tx.distributor
 
    
-    shipment.producer = factory.newRelationship(NS,'Retailer',`0000`)
+    shipment.retailer = factory.newRelationship(NS,'Retailer',`0000`)
      
-    shipment.processor = factory.newRelationship(NS,'Consumer',`0000`)
+    shipment.consumer = factory.newRelationship(NS,'Consumer',`0000`)
 
-    shipment.product = factory.newRelationship(NS,'Shipment',tx.product)
+    shipment.product =tx.product
 
 
     const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
@@ -516,19 +502,11 @@ let previoustateArray = []
 
 
 
-  }else if(participant == org.fishDepartment.shipping.net.Processor){
+  }else if(particpantDetails.role=== "PROCESSOR"){
+     const assetDetails = tx.fishDepartment 
     if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
       assetDetails.productStatus = "IN_PROCESSING"
-      // const previousloc =  assetDetails.productLocation.currentState.location
-      // const previousDate = assetDetails.productLocation.currentState.arrivalDate
-      // const previousObject = {
-      //   "location" : previousloc,
-      //   "arrivalDate" :previousDate
-      // }
-      // assetDetails.productLocation.previousState.push(previousObject)
   
-      // assetDetails.productLocation.currentState.location = tx.location
-      // assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
       
       let  productLocation = factory.newConcept(NS,'ProductLocation')
       let currentState = factory.newConcept(NS,'CurrentState')
@@ -537,8 +515,8 @@ let previoustateArray = []
       previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
       previousStates.location = assetDetails.productLocation.currentState.location
      
-      assetDetails.push(assetDetails.productLocation.currentState.location)
-     // productLocation.previousState=[previousStates]
+      assetDetails.history.push(assetDetails.productLocation.currentState.location)
+   
     assetDetails.productLocation.previousState=[previousStates]
       currentState.location = tx.location
       currentState.arrivalDate = tx.timestamp
@@ -606,7 +584,7 @@ async function TransferToProcesorFn(tx){
     
 
     
-    console.log(fishermanDetails.getIdentifier())
+
     if(product.productStatus == 'IN_PRODUCTION' && product.producer.getIdentifier() == producerDetails.getIdentifier()){
       
       product.processor = tx.processor

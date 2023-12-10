@@ -206,8 +206,6 @@ transaction addNewShipment {
   o String batchId
   o TemperatureReading[] temperatureReadings optional
   --> Distributor distributor
-  --> Retailer retailer
-  --> Consumer consumer
   --> FishProduct product
 }
 
