@@ -4,13 +4,14 @@ query assetDetails{
 
 }
 
-query shipmentDetails {
+query assetDetailsbyProducer{
+  description:"quering fishDepartment assetDetails"
+  statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(producer == _$producer)
 
-    description:"quering shipment asset Details"
-  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(shipmentId  == _$shipmentId)
 }
 
-query statusQuery{
-   description:"quering the status"
-  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(product  == _$product)
+query assetDetailsbyProcessor{
+  description:"quering fishDepartment assetDetails"
+  statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(processor == _$processor)
+
 }
