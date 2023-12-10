@@ -3,6 +3,29 @@
      /**
      * Sample access control list.
      */
+
+
+
+    rule ConsumeTX{
+      description: "Transfer ownerShip"
+     participant: "ANY"
+     operation: ALL
+     resource: "org.fishDepartment.shipping.net.Consume"
+     transaction: "org.fishDepartment.shipping.net.Consume"
+     action: ALLOW
+     }
+
+
+
+     rule TransferToRetailerTX{
+      description: "Transfer ownerShip"
+     participant: "ANY"
+     operation: ALL
+     resource: "org.fishDepartment.shipping.net.TransferToRetailer"
+     transaction: "org.fishDepartment.shipping.net.TransferToRetailer"
+     action: ALLOW
+     }
+
      rule productRecievedDENYTx{
      description: "Transfer ownerShip"
      participant: "org.fishDepartment.shipping.net.FisherMan"
@@ -12,12 +35,23 @@
      action: DENY
      }
 
-     rule addNewShipmentx{
+    rule ShipmentReceivedAllowTx{
+     description: "Transfer ownerShip"
+     participant: "ANY"
+     operation: ALL
+     resource: "org.fishDepartment.shipping.net.ShipmentReceived"
+     transaction: "org.fishDepartment.shipping.net.ShipmentReceived"
+     action: ALLOW
+     }
+
+
+
+     rule createShipmentx{
      description: "Add new shipment by processor"
      participant: "org.fishDepartment.shipping.net.Processor"
      operation: CREATE,READ
-     resource: "org.fishDepartment.shipping.net.addNewShipment"
-     transaction: "org.fishDepartment.shipping.net.addNewShipment"
+     resource: "org.fishDepartment.shipping.net.createShipment"
+     transaction: "org.fishDepartment.shipping.net.createShipment"
      action: ALLOW
      }
 

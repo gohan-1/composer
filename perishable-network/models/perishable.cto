@@ -41,6 +41,7 @@ enum ShipmentStatus{
   o IN_TRANSIST
   o SHIPPED
   o ARRIVED
+  o SOLD
 }
 
 enum ProductStatus{
@@ -161,13 +162,14 @@ transaction TemperatureReading extends ShipmentTransaction {
  * to the grower to pay for the shipment.
  */
 transaction ShipmentReceived extends ShipmentTransaction {
+   o String location
 }
 
 transaction initializeAll {
 }
 
 
-transaction addNewFishProduct {
+transaction createFishProduct {
   o String productid
   o String[] componentId
   o String id
@@ -198,7 +200,7 @@ asset Shipment identified by shipmentId {
 }
 
 
-transaction addNewShipment {
+transaction createShipment {
   o String shipmentId
   o ProductType type
   o ShipmentStatus status default = "NOT_CREATED"
@@ -219,11 +221,25 @@ transaction TransferToProcesor {
  --> Processor processor
  --> FishProduct fishProduct
 }
+transaction TransferToRetailer {
+ -->  Retailer retailer
+ --> Shipment shipment
+}
+
+transaction Consume {
+  --> Consumer consumer
+  --> Shipment shipment
+}
 
 transaction queryAssetByassetId {
   --> FishProduct fishProduct
 }
 
-transaction queryAssetByParticipant {
- 
+transaction  queryShipmentAsset{
+    --> Shipment shipment
 }
+
+transaction productStatus {
+  -->FishProduct product
+}
+

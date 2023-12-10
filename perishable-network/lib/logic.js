@@ -1,16 +1,4 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 var NS = 'org.fishDepartment.shipping.net';
 function checkProfileforProccessorandFisherMan(role){
     console.log(role)
@@ -21,8 +9,28 @@ function checkProfileforProccessorandFisherMan(role){
     return  (role == "PROCESSOR")
   }
 
-
   /**
+* @param {org.fishDepartment.shipping.net.productStatus} no params 
+ * @transaction
+ */
+
+async function productStatus(){
+
+  
+
+    let resourece  = "resourece:"+tx.product.getFullyQualifiedIdentifier()
+    const result = await query('statusQuery',{'product' : resourece})
+
+  if (result.length ==0 ) throw new Error(' No Shipment Details for this product')
+  result.forEach(item => {
+    
+    console(`product having shipment ID ${item.shipmentId} and belong to batch ID${item.batchId} is in ${item.status}`)
+  });
+
+
+}
+
+/**
 * @param {org.fishDepartment.shipping.net.queryAssetByassetId} fishProduct 
  * @transaction
  */
@@ -41,13 +49,21 @@ async function queryAsset(tx){
   });
 }
 
+/**
+* @param {org.fishDepartment.shipping.net.queryShipmentAsset} shipment 
+ * @transaction
+ */
+async function queryShipmentAsset(tx){
+  const assetId = tx.shipment.getIdentifier()
+
+  const result = await query('shipmentDetails',{'shipmentId' : assetId})
+
+  if (result.length !=1) throw new Error(' asset details missmatching ')
+  return result
+}
 
 
 
-
-  
-  /* global getParticipantRegistry getAssetRegistry getFactory */
-  
 /**
  * Initialize some test assets and participants useful for running a demo.
  * @param {org.fishDepartment.shipping.net.initializeAll} initializeAllfn - initialize all  transaction  1 params
@@ -279,14 +295,14 @@ async function TemperatureReadingFn(tx){
 
 /**
  * Initialize some test assets and participants useful for running a demo.
- * @param {org.fishDepartment.shipping.net.addNewFishProduct} addNewFishProductFn - no params
+ * @param {org.fishDepartment.shipping.net.createFishProduct} createFishProductFn - no params
  * @transaction
  */
 
 
 
 
-async function addNewFishProductFn(tx){
+async function createFishProductFn(tx){
    let factory = getFactory();
 
   const id = getCurrentParticipant()  
@@ -333,11 +349,11 @@ async function addNewFishProductFn(tx){
 
 /**
  * Initialize some test assets and participants useful for running a demo.
- * @param {org.fishDepartment.shipping.net.addNewShipment} addNewShipmentFn - no params
+ * @param {org.fishDepartment.shipping.net.createShipment} createShipmentFn - no params
  * @transaction
  */
 
-async function addNewShipmentFn(tx){
+async function createShipmentFn(tx){
   let factory = getFactory();
 
   const id = getCurrentParticipant()  
@@ -462,12 +478,6 @@ let previoustateArray = []
     let previousStates=factory.newConcept(NS,'PreviousState')
     
     
-   
-   
-    
-    
-  
-    
      previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
     previousStates.location = assetDetails.productLocation.currentState.location
 
@@ -482,16 +492,7 @@ let previoustateArray = []
 
     assetDetails.productLocation = productLocation
     assetDetails.history.push(assetDetails.productLocation.currentState.location)
-    // const previousloc =  assetDetails.productLocation.currentState.location
-    // const previousDate = assetDetails.productLocation.currentState.arrivalDate
-    // const previousObject = {
-    //   "location" : previousloc,
-    //   "arrivalDate" :previousDate
-    // }
-    // assetDetails.productLocation.previousState.push(previousObject)
 
-    // assetDetails.productLocation.currentState.location = tx.location
-    // assetDetails.productLocation.currentState.arrivalDate =  tx.timestamp
     
     fishProductAssetRegistery.update(assetDetails)
 
@@ -541,6 +542,126 @@ let previoustateArray = []
 
 }
 
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.ShipmentReceived} shipmentReceivedFn - no params
+ * @transaction
+ */
+async function shipmentReceivedFn(tx){
+
+  let factory = getFactory();
+ 
+   const particpantDetails= getCurrentParticipant()  
+ // only fisherman can do this  have to wrte rule
+ let previoustateArray = []
+ 
+   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+    const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+   
+ 
+   if(particpantDetails.role=== "DISTRIBUTOR"){
+ 
+   const assetDetails = tx.shipment
+
+   
+ 
+ //  let result = await queryAssetByParticipant(particpantDetails,particpantDetails.role)
+ //  let flag =0 
+ 
+   if(assetDetails.distributor.getIdentifier() ==  particpantDetails.getIdentifier() ){
+   const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
+  
+     let  productLocation = factory.newConcept(NS,'ProductLocation')
+     let currentState = factory.newConcept(NS,'CurrentState')
+     let previousStates=factory.newConcept(NS,'PreviousState')
+    
+     
+     
+   
+     
+      previousStates.arrivalDate = fishProduct.productLocation.currentState.arrivalDate
+     previousStates.location = fishProduct.productLocation.currentState.location
+ 
+   
+     
+     productLocation.previousState=[previousStates]
+ 
+     currentState.location = tx.location
+     currentState.arrivalDate = tx.timestamp
+ 
+     productLocation.currentState =currentState
+ 
+     fishProduct.productLocation = productLocation
+     fishProduct.history.push(fishProduct.productLocation.currentState.location)
+ 
+     
+     fishProductAssetRegistery.update(fishProduct)
+
+     assetDetails.status= "IN_TRANSIST"
+
+     shipmentAssetRegistery.update(assetDetails)
+
+
+ 
+   }else{
+     throw new Error('Identifier miss match')
+   }
+ 
+ 
+ 
+ 
+   }else if(particpantDetails.role=== "RETAILER"){
+    const assetDetails = tx.shipment
+
+   
+ 
+    //  let result = await queryAssetByParticipant(particpantDetails,particpantDetails.role)
+    //  let flag =0 
+    
+      if(assetDetails.retailer.getIdentifier() ==  particpantDetails.getIdentifier() ){
+      const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
+     
+        let  productLocation = factory.newConcept(NS,'ProductLocation')
+        let currentState = factory.newConcept(NS,'CurrentState')
+        let previousStates=factory.newConcept(NS,'PreviousState')
+       
+        
+        
+      
+        
+         previousStates.arrivalDate = fishProduct.productLocation.currentState.arrivalDate
+        previousStates.location = fishProduct.productLocation.currentState.location
+    
+      
+        
+        productLocation.previousState=[previousStates]
+    
+        currentState.location = tx.location
+        currentState.arrivalDate = tx.timestamp
+    
+        productLocation.currentState =currentState
+    
+        fishProduct.productLocation = productLocation
+        fishProduct.history.push(fishProduct.productLocation.currentState.location)
+    
+        
+        fishProductAssetRegistery.update(fishProduct)
+   
+        assetDetails.status= "ARRIVED"
+   
+        shipmentAssetRegistery.update(assetDetails)
+
+        }else{
+       throw new Error('Identifier miss match')
+     }
+   
+     
+   }else{
+     throw new Error('particpiant having wrong credential')
+   }
+ 
+ 
+ }
 
 /**
  * Initialize some test assets and participants useful for running a demo.
@@ -605,3 +726,139 @@ async function TransferToProcesorFn(tx){
 
 
 }
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.TransferToRetailer} TransferToRetailerFn - no params
+ * @transaction
+ */
+
+async function TransferToRetailerFn(tx){
+
+  let factory = getFactory();
+
+  const distributorDetails= getCurrentParticipant()  
+// only fisherman can do this  have to wrte rule
+
+
+  console.log(distributorDetails)
+
+  
+  
+  const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
+
+  
+  let exist = retailerParticipantRegistry.exists(tx.processor.getIdentifier());
+  const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+
+  
+
+
+  if(exist){
+
+ 
+    
+    //  query the details fishProduct
+   
+		console.log('----------------------------------------')
+	let shipment =	await queryShipmentAsset(tx)
+   
+  shipment=shipment[0]
+    
+    
+
+    
+
+    if(shipment.productStatus == 'IN_TRANSIST' && product.distributor.getIdentifier() == producerDetails.getIdentifier()){
+      
+      shipment.retailer = tx.retailer
+      shipment.status = "SHIPPED"
+      shipmentAssetRegistery.update(shipment)
+    }else{
+      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+    }
+
+
+
+  }else{
+    throw new Error('Producer does not exist, please check the producer id')
+  }
+
+
+
+
+
+}
+
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.Consume} ConsumeFn - no params
+ * @transaction
+ */
+async function ConsumeFn(tx){
+
+  let factory = getFactory();
+
+  const distributorDetails= getCurrentParticipant()  
+// only fisherman can do this  have to wrte rule
+
+
+  console.log(distributorDetails)
+
+  
+  
+  const consumerParticipantRegistry = await getParticipantRegistry(NS+'.Consumer');
+
+  
+  let exist = consumerParticipantRegistry.exists(tx.consumer.getIdentifier());
+  const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
+
+  
+
+
+  if(exist){
+
+ 
+    
+    //  query the details fishProduct
+   
+		console.log('----------------------------------------')
+	let shipment =	await queryShipmentAsset(tx)
+   
+  shipment=shipment[0]
+    
+    
+
+    
+
+    if(shipment.productStatus == 'ARRIVED' && product.retailer.getIdentifier() == producerDetails.getIdentifier()){
+      
+      shipment.consumer = tx.consumer
+      shipment.status = "SOLD"
+      shipmentAssetRegistery.update(shipment)
+    }else{
+      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+    }
+
+
+
+  }else{
+    throw new Error('Producer does not exist, please check the producer id')
+  }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+

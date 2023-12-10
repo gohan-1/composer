@@ -3,3 +3,14 @@ query assetDetails{
   statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(productid == _$productid)
 
 }
+
+query shipmentDetails {
+
+    description:"quering shipment asset Details"
+  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(shipmentId  == _$shipmentId)
+}
+
+query statusQuery{
+   description:"quering the status"
+  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(product  == _$product)
+}
