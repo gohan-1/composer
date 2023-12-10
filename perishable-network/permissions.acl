@@ -1,4 +1,51 @@
+	     rule fishermancanseeThireasset{
+          description: "Allow fisherman to se"
+          participant(p): "org.fishDepartment.shipping.net.FisherMan"
+          operation: READ,UPDATE,CREATE
+          resource(r): "org.fishDepartment.shipping.net.FishProduct"
+          condition: (p.getIdentifier()==r.owner.getIdentifier())
+          action: ALLOW
+     }
 
+
+     rule processorcanseeThireAsset{
+          description: "Allow fisherman to se"
+          participant(p): "org.fishDepartment.shipping.net.Processor"
+          operation: READ,UPDATE
+          resource(r): "org.fishDepartment.shipping.net.FishProduct"
+          condition: (p.getIdentifier()==r.processor.getIdentifier())
+          action: ALLOW
+     }
+
+     rule producercanseeThireAsset{
+          description: "Allow fisherman to se"
+          participant(p): "org.fishDepartment.shipping.net.Producer"
+          operation: READ,UPDATE
+          resource(r): "org.fishDepartment.shipping.net.FishProduct"
+          condition: (p.getIdentifier()==r.producer.getIdentifier())
+          action: ALLOW
+     }
+
+
+
+	 rule participantcanSeeThemself{
+          description: "Allow producer and fisherman to create asset"
+          participant(p): "org.hyperledger.composer.system.Participant"
+          operation: READ,UPDATE
+          resource(r): "org.hyperledger.composer.system.Participant"
+          condition: (p.getIdentifier()==r.getIdentifier())
+          action: ALLOW
+     }
+
+   rule CreateAsset {
+          description: "Allow producer and fisherman to create FishProduct Assets"
+          participant(p): "org.hyperledger.composer.system.Participant"
+          operation: CREATE
+          resource(r): "org.fishDepartment.shipping.net.createFishProduct"
+     	  transaction : "org.fishDepartment.shipping.net.createFishProduct"
+          condition: ( checkProfileforProccessorandFisherMan(p.role) )
+          action: ALLOW
+     }
 
 
 
