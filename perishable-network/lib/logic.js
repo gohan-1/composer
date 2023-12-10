@@ -569,10 +569,10 @@ async function shipmentReceivedFn(tx){
  //  let flag =0 
  
    if(assetDetails.distributor.getIdentifier() ==  particpantDetails.getIdentifier() ){
-   const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
-   
-   console.log(fishProduct)
+    console.log(assetDetails.product)
+    let product =	await queryAsset(assetDetails.product)
   
+     let fishProduct=product[0]
      let  productLocation = factory.newConcept(NS,'ProductLocation')
      let currentState = factory.newConcept(NS,'CurrentState')
      let previousStates=factory.newConcept(NS,'PreviousState')
@@ -625,7 +625,7 @@ async function shipmentReceivedFn(tx){
       console.log(assetDetails.product)
      let product =	await queryAsset(assetDetails.product)
    
-      fishProduct=product[0]
+      let fishProduct=product[0]
         let  productLocation = factory.newConcept(NS,'ProductLocation')
         let currentState = factory.newConcept(NS,'CurrentState')
         let previousStates=factory.newConcept(NS,'PreviousState')
