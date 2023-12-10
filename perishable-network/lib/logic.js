@@ -570,6 +570,8 @@ async function shipmentReceivedFn(tx){
  
    if(assetDetails.distributor.getIdentifier() ==  particpantDetails.getIdentifier() ){
    const fishProduct  = fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
+   
+   console.log(fishProduct)
   
      let  productLocation = factory.newConcept(NS,'ProductLocation')
      let currentState = factory.newConcept(NS,'CurrentState')
