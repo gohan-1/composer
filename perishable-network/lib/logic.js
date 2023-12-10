@@ -50,6 +50,26 @@ async function queryAsset(tx){
 }
 
 /**
+* @param {org.fishDepartment.shipping.net.queryAssets} identifier 
+ * @transaction
+ */
+async function queryAssets(identifier){
+  const assetId =identifier;
+console.log(assetId)
+  const result = await query('queryAssets',{'productid' : assetId})
+  console.log(result)
+	
+  if (result.length !=1) throw new Error(' asset details missmatching ')
+  return result
+  result.forEach(item => {
+    console.log('+++=++++++')
+    console.log(item)
+    return item
+    
+  });
+}
+
+/**
 * @param {org.fishDepartment.shipping.net.queryShipmentAsset} shipment 
  * @transaction
  */
@@ -569,10 +589,14 @@ async function shipmentReceivedFn(tx){
  //  let flag =0 
  
    if(assetDetails.distributor.getIdentifier() ==  particpantDetails.getIdentifier() ){
-    console.log(assetDetails.product)
-    let product =	await queryAsset(assetDetails.product)
+    
+    
   
-     let fishProduct=product[0]
+     let fishProduct=fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
+     console.log(fishProduct)
+     console.log(fishProduct.__zone_symbol__value)
+     fishProduct = fishProduct.__zone_symbol__value
+        console.log(Object.keys(fishProduct))
      let  productLocation = factory.newConcept(NS,'ProductLocation')
      let currentState = factory.newConcept(NS,'CurrentState')
      let previousStates=factory.newConcept(NS,'PreviousState')
