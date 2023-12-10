@@ -4,7 +4,31 @@
      * Sample access control list.
      */
 
-	
+
+rule productStatusRule{
+          description: "Allow fisherman to se"
+          participant: "ANY"
+          operation: ALL
+          resource: "**"
+          action: ALLOW
+     }
+
+ rule RetialerCanupdatefishProductAsset{
+          description: "Allow fisherman to se"
+          participant: "org.fishDepartment.shipping.net.Retailer"
+          operation: UPDATE,READ
+          resource: "org.fishDepartment.shipping.net.FishProduct"
+          action: ALLOW
+     }
+
+	  rule distributorCanupdatefishProductAsset{
+          description: "Allow fisherman to se"
+          participant: "org.fishDepartment.shipping.net.Distributor"
+          operation: UPDATE,READ
+          resource: "org.fishDepartment.shipping.net.FishProduct"
+          action: ALLOW
+     }
+
 
     rule ConsumeTX{
       description: "Transfer ownerShip"

@@ -14,17 +14,19 @@ function checkProfileforProccessorandFisherMan(role){
  * @transaction
  */
 
-async function productStatus(){
+async function productStatus(tx){
 
   
 
-    let resourece  = "resourece:"+tx.product.getFullyQualifiedIdentifier()
-    const result = await query('statusQuery',{'product' : resourece})
+    let resource  = "resource:"+tx.product.getFullyQualifiedIdentifier()
+    console.log(resource)
+    const result = await query('statusQuery',{'product' : resource})
+    console.log(result)
 
   if (result.length ==0 ) throw new Error(' No Shipment Details for this product')
   result.forEach(item => {
     
-    console(`product having shipment ID ${item.shipmentId} and belong to batch ID${item.batchId} is in ${item.status}`)
+    console.log(`product having shipment ID ${item.shipmentId} and belong to batch ID${item.batchId} is in ${item.status}`)
   });
 
 
@@ -762,7 +764,7 @@ async function TransferToRetailerFn(tx){
   const retailerParticipantRegistry = await getParticipantRegistry(NS+'.Retailer');
 
   
-  let exist = retailerParticipantRegistry.exists(tx.processor.getIdentifier());
+  let exist = retailerParticipantRegistry.exists(tx.retailer.getIdentifier());
   const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
 
   
@@ -783,7 +785,7 @@ async function TransferToRetailerFn(tx){
 
     
 
-    if(shipment.productStatus == 'IN_TRANSIST' && product.distributor.getIdentifier() == producerDetails.getIdentifier()){
+    if(shipment.status == 'IN_TRANSIST' && shipment.distributor.getIdentifier() == distributorDetails.getIdentifier()){
       
       shipment.retailer = tx.retailer
       shipment.status = "SHIPPED"
@@ -814,11 +816,11 @@ async function ConsumeFn(tx){
 
   let factory = getFactory();
 
-  const distributorDetails= getCurrentParticipant()  
+  const retailerDetails= getCurrentParticipant()  
 // only fisherman can do this  have to wrte rule
 
 
-  console.log(distributorDetails)
+  console.log(retailerDetails)
 
   
   
@@ -835,7 +837,7 @@ async function ConsumeFn(tx){
 
  
     
-    //  query the details fishProduct
+    
    
 		console.log('----------------------------------------')
 	let shipment =	await queryShipmentAsset(tx)
@@ -846,7 +848,7 @@ async function ConsumeFn(tx){
 
     
 
-    if(shipment.productStatus == 'ARRIVED' && product.retailer.getIdentifier() == producerDetails.getIdentifier()){
+    if(shipment.status == 'ARRIVED' && shipment.retailer.getIdentifier() == retailerDetails.getIdentifier()){
       
       shipment.consumer = tx.consumer
       shipment.status = "SOLD"
