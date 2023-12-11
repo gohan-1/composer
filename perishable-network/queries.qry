@@ -35,3 +35,10 @@ query statusQuery{
   statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(product  == _$product)
 }
 
+
+query transactionQuery{
+  description:"quering transaction details"
+  statement: SELECT org.hyperledger.composer.system.HistorianRecord
+          WHERE (transactionType == 'AddAsset' OR transactionType == 'UpdateAsset' OR transactionType == 'RemoveAsset')
+
+}
