@@ -15,3 +15,10 @@ query assetDetailsbyProcessor{
   statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(processor == _$processor)
 
 }
+
+query transactionQuery{
+  description:"quering transaction details"
+  statement: SELECT org.hyperledger.composer.system.HistorianRecord
+          WHERE (transactionType == 'AddAsset' OR transactionType == 'UpdateAsset' OR transactionType == 'RemoveAsset')
+
+}
