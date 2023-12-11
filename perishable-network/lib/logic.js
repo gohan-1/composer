@@ -32,6 +32,32 @@ async function productStatus(tx){
 
 }
 
+
+
+
+ /**
+* @param {org.fishDepartment.shipping.net.queryTransaction} no params 
+ * @transaction
+ */
+
+async function queryTransaction(tx){
+
+  
+
+ 
+  const result = await query('transactionQuery')
+  console.log(result)
+
+if (result.length ==0 ) throw new Error(' No Shipment Details for this product')
+result.forEach(item => {
+  
+  console.log(item)
+});
+
+
+}
+
+
 /**
 * @param {org.fishDepartment.shipping.net.queryAssetByassetId} fishProduct 
  * @transaction
@@ -43,12 +69,7 @@ async function queryAsset(tx){
 
   if (result.length !=1) throw new Error(' asset details missmatching ')
   return result
-  result.forEach(item => {
-    console.log('+++=++++++')
-    console.log(item)
-    return item
-    
-  });
+ 
 }
 
 

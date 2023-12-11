@@ -250,6 +250,15 @@
           action: ALLOW
      }
 
+     	rule queryTransactionRule{
+          description: "Allow all to this query transcation"
+          participant: "ANY"
+          operation: ALL
+         resource: "org.fishDepartment.shipping.net.queryTransaction"
+     	transaction: "org.fishDepartment.shipping.net.queryTransaction"
+          action: ALLOW
+     }
+
 
 
      rule SystemACL {

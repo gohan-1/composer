@@ -249,3 +249,6 @@ transaction queryAssets {
 }
 
 
+transaction queryTransaction {
+
+}
