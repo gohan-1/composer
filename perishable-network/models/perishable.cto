@@ -253,3 +253,10 @@ transaction queryTransaction {
 
 }
   
+transaction queryLocatoion {
+  -->FishProduct product
+}
+
+transaction removeFisherman {
+  o FisherMan fisherMan
+}
