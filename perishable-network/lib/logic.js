@@ -338,10 +338,10 @@ await shipmentAssetRegistery.addAll(shipments)
 
 async function  removeFishermanFn(tx){
 
-  let fisherman = tx.fisherman
-  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+  let fisherman = tx.fisherMan
+  const fishermanParticipantRegistry = await getParticipantRegistry(NS+'.FisherMan');
 
-  const removed = await fishProductAssetRegistery.remove(fisherman.getIdentifier());
+  const removed = await fishermanParticipantRegistry.remove(fisherman.getIdentifier());
 
 
  

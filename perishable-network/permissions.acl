@@ -145,10 +145,19 @@
   rule removeFishermanTx{
      description: "transaction product Recieved"
      participant: "org.fishDepartment.shipping.net.Processor"
-     operation: DELETE
+     operation: DELETE,CREATE
      resource: "org.fishDepartment.shipping.net.removeFisherman"
      transaction: "org.fishDepartment.shipping.net.removeFisherman"
-     action: DENY
+     action: ALLOW
+     }
+
+// DENY Fisherman to do this transaction
+  rule removeFishermanhelperTx{
+     description: "transaction product Recieved"
+     participant: "org.fishDepartment.shipping.net.Processor"
+     operation: DELETE
+     resource: "org.fishDepartment.shipping.net.FisherMan"
+     action: ALLOW
      }
 
 
