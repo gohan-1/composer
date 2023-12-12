@@ -90,9 +90,10 @@
 // distributor can see thire assets
 	  rule distributorCanupdatefishProductAsset{
           description: "Distributor can update  fish product"
-          participant: "org.fishDepartment.shipping.net.Distributor"
+          participant(p): "org.fishDepartment.shipping.net.Distributor"
           operation: UPDATE,READ
-          resource: "org.fishDepartment.shipping.net.FishProduct"
+          resource(r): "org.fishDepartment.shipping.net.FishProduct"
+          condition: ( checkAccessForDistributor(p,r) )
           action: ALLOW
      }
 

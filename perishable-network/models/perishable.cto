@@ -252,3 +252,6 @@ transaction queryAssets {
 transaction queryTransaction {
 
 }
+  
+ transaction shipmentDetailsbyProduct{ 
+}

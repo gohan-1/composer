@@ -16,6 +16,15 @@ query assetDetailsbyProcessor{
 
 }
 
+query shipmentDetailsbyProduct {
+
+    description:"quering shipment asset Details"
+  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(product  == _$product)
+}
+
+
+
+
 query queryAssets{
   description:"quering fishDepartment assetDetails"
   statement: SELECT org.fishDepartment.shipping.net.FishProduct  WHERE(productid == _$productid)
@@ -39,6 +48,6 @@ query statusQuery{
 query transactionQuery{
   description:"quering transaction details"
   statement: SELECT org.hyperledger.composer.system.HistorianRecord
-          WHERE (transactionType == 'AddAsset' OR transactionType == 'UpdateAsset' OR transactionType == 'RemoveAsset')
+          WHERE (transactionType == 'org.fishDepartment.shipping.net.createFishProduct' OR transactionType == 'org.fishDepartment.shipping.ne t.createShipment' OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.TransferToProducer'  OR transactionType == 'org.fishDepartment.shipping.net.productRecieved' OR transactionType == 'org.fishDepartment.shipping.net.TransferToProcesor' OR transactionType == 'org.fishDepartment.shipping.net.TransferToRetailer'  OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.Consume'  )
 
 }
