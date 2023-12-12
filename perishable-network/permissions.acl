@@ -91,7 +91,7 @@
 	  rule distributorCanupdatefishProductAsset{
           description: "Distributor can update  fish product"
           participant: "org.fishDepartment.shipping.net.Distributor"
-          operation: UPDATE
+          operation: UPDATE,READ
           resource: "org.fishDepartment.shipping.net.FishProduct"
           action: ALLOW
      }
