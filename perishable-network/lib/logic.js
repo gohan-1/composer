@@ -9,28 +9,7 @@ function checkProfileforProccessorandFisherMan(role){
     return  (role == "PROCESSOR")
   }
 
-  /**
-* @param {org.fishDepartment.shipping.net.shipmentDetailsbyProduct} no params 
- * @transaction
- */
 
-async function checkAccessForDistributor(p,r){
-
-  let resource  = "resource:"+p.getFullyQualifiedIdentifier()
-  console.log(resource)
-  const result = await query('shipmentDetailsbyProduct',{'product' : resource})
-  console.log(result)
-
- if (result.length ==0 ) return false
-result.forEach(item => {
-   if(item.product.getIdentifier() == r.getIdentifier()){
-    return true;
-   }  else{
-    return false;
-   }
-});
-
-}
 
   /**
 * @param {org.fishDepartment.shipping.net.productStatus} no params 
@@ -232,7 +211,7 @@ FishermanId.forEach((element,index) => {
     currentState.arrivalDate = tx.timestamp
     previousState.arrivalDate = tx.timestamp
     previousState.location ="B"
-    productLocation.previousState= [previousState]
+    productLocation.previousState= previousState
     productLocation.currentState =currentState
     fishProduct.productLocation = productLocation
   
@@ -373,7 +352,7 @@ async function createFishProductFn(tx){
     currentState.arrivalDate = tx.timestamp
     previousState.arrivalDate = tx.timestamp
     previousState.location =tx.location
-    productLocation.previousState= [previousState]
+    productLocation.previousState= previousState
     productLocation.currentState =currentState
     fishProduct.productLocation = productLocation
   
@@ -530,7 +509,7 @@ let previoustateArray = []
 
   
     
-    productLocation.previousState=[previousStates]
+    productLocation.previousState=previousStates
 
     currentState.location = tx.location
     currentState.arrivalDate = tx.timestamp
@@ -538,7 +517,9 @@ let previoustateArray = []
     productLocation.currentState =currentState
 
     assetDetails.productLocation = productLocation
-    assetDetails.history.push(assetDetails.productLocation.currentState.location)
+    console.log(assetDetails.productLocation)
+    console.log(assetDetails.productLocation.previousState.location)
+    assetDetails.history.push(assetDetails.productLocation.previousState.location)
 
     
     fishProductAssetRegistery.update(assetDetails)
@@ -563,9 +544,9 @@ let previoustateArray = []
       previousStates.arrivalDate = assetDetails.productLocation.currentState.arrivalDate
       previousStates.location = assetDetails.productLocation.currentState.location
      
-      assetDetails.history.push(assetDetails.productLocation.currentState.location)
+      assetDetails.history.push(assetDetails.productLocation.previousState.location)
    
-    productLocation.previousState=[previousStates]
+    productLocation.previousState=previousStates
       currentState.location = tx.location
       currentState.arrivalDate = tx.timestamp
   
@@ -637,7 +618,7 @@ async function shipmentReceivedFn(tx){
  
    
      
-     productLocation.previousState=[previousStates]
+     productLocation.previousState=previousStates
  
      currentState.location = tx.location
      currentState.arrivalDate = tx.timestamp
@@ -645,7 +626,7 @@ async function shipmentReceivedFn(tx){
      productLocation.currentState =currentState
  
      fishProduct.productLocation = productLocation
-     fishProduct.history.push(fishProduct.productLocation.currentState.location)
+     fishProduct.history.push(fishProduct.productLocation.previousState.location)
  
      
      fishProductAssetRegistery.update(fishProduct)
@@ -692,7 +673,7 @@ async function shipmentReceivedFn(tx){
  
    
      
-     productLocation.previousState=[previousStates]
+     productLocation.previousState=previousStates
  
      currentState.location = tx.location
      currentState.arrivalDate = tx.timestamp
@@ -700,7 +681,7 @@ async function shipmentReceivedFn(tx){
      productLocation.currentState =currentState
  
      fishProduct.productLocation = productLocation
-     fishProduct.history.push(fishProduct.productLocation.currentState.location)
+     fishProduct.history.push(fishProduct.productLocation.previousState.location)
  
      
      fishProductAssetRegistery.update(fishProduct)

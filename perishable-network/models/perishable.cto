@@ -22,7 +22,7 @@ concept CurrentState {
 
 }
 concept ProductLocation {
-  o PreviousState[] previousState
+  o PreviousState previousState
   o CurrentState currentState
 
 }
@@ -253,5 +253,3 @@ transaction queryTransaction {
 
 }
   
- transaction shipmentDetailsbyProduct{ 
-}

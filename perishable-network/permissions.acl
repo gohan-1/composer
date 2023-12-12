@@ -69,7 +69,7 @@
    rule createShipment{
           description: "Allow processor to create shipment"
           participant(p): "org.hyperledger.composer.system.Participant"
-          operation: CREATE,READ
+          operation: CREATE
           resource(r): "org.fishDepartment.shipping.net.Shipment"
           condition: ( checkProfileforProcessor(p.role) )
           action: ALLOW
@@ -154,7 +154,7 @@
  rule RetialerCanupdatefishProductAsset{
           description: "Allow fisherman to se"
           participant: "org.fishDepartment.shipping.net.Retailer"
-          operation: UPDATE
+          operation: UPDATE,READ
           resource: "org.fishDepartment.shipping.net.FishProduct"
           action: ALLOW
      }

@@ -16,13 +16,6 @@ query assetDetailsbyProcessor{
 
 }
 
-query shipmentDetailsbyProduct {
-
-    description:"quering shipment asset Details"
-  statement: SELECT org.fishDepartment.shipping.net.Shipment  WHERE(product  == _$product)
-}
-
-
 
 
 query queryAssets{
