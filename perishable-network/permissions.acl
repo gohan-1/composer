@@ -118,6 +118,16 @@
           condition: (p.getIdentifier()==r.consumer.getIdentifier())
           action: ALLOW
      }
+
+      //consumer can quey
+    rule consumercanQueryFishProductLocation{
+          description: "Allow consumer can see thire assets"
+          participant: "org.fishDepartment.shipping.net.Consumer"
+          operation:  ALL
+          resource: "org.fishDepartment.shipping.net.queryLocatoion"
+          transaction:"org.fishDepartment.shipping.net.queryLocatoion"
+          action: ALLOW
+     }
 // DENY Fisherman to do this transaction
   rule productRecievedDENYTx{
      description: "transaction product Recieved"
@@ -127,6 +137,20 @@
      transaction: "org.fishDepartment.shipping.net.productRecieved"
      action: DENY
      }
+
+
+
+
+// DENY Fisherman to do this transaction
+  rule removeFishermanTx{
+     description: "transaction product Recieved"
+     participant: "org.fishDepartment.shipping.net.Processor"
+     operation: DELETE
+     resource: "org.fishDepartment.shipping.net.removeFisherman"
+     transaction: "org.fishDepartment.shipping.net.removeFisherman"
+     action: DENY
+     }
+
 
 // DENY customer to do this transaction
   rule ShipmentReceivedDENYTx{

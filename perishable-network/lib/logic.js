@@ -10,6 +10,35 @@ function checkProfileforProccessorandFisherMan(role){
   }
 
 
+  /**
+* @param {org.fishDepartment.shipping.net.queryLocatoion} no params 
+ * @transaction
+ */
+
+async function productLocations(tx){
+
+  
+  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+
+   
+ 
+
+ 
+
+
+    
+  
+     let fishProduct=fishProductAssetRegistery.get(tx.getIdentifier())
+if (fishProduct.length ==0 ) throw new Error(' No Shipment Details for this product')
+result.forEach(item => {
+  
+  console.log(`locations are ${item.history}`)
+});
+
+
+}
+
+
 
   /**
 * @param {org.fishDepartment.shipping.net.productStatus} no params 
@@ -60,6 +89,8 @@ result.forEach(item => {
 }
 
 
+
+
 /**
 * @param {org.fishDepartment.shipping.net.queryAssetByassetId} fishProduct 
  * @transaction
@@ -87,6 +118,8 @@ async function queryShipmentAsset(tx){
   if (result.length !=1) throw new Error(' asset details missmatching ')
   return result
 }
+
+
 
 
 
@@ -293,6 +326,26 @@ await shipmentAssetRegistery.addAll(shipments)
 
   
   
+}
+
+
+/**
+ * Initialize some test assets and participants useful for running a demo.
+ * @param {org.fishDepartment.shipping.net.removeFisherman} removeFishermanFn - the SetupDemo transaction
+ * @transaction
+ */
+
+
+async function  removeFishermanFn(tx){
+
+  let fisherman = tx.fisherman
+  const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
+
+  const removed = await fishProductAssetRegistery.remove(fisherman.getIdentifier());
+
+
+ 
+
 }
 
 /**
