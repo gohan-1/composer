@@ -10,6 +10,29 @@ function checkProfileforProccessorandFisherMan(role){
   }
 
   /**
+* @param {org.fishDepartment.shipping.net.shipmentDetailsbyProduct} no params 
+ * @transaction
+ */
+
+async function checkAccessForDistributor(p,r){
+
+  let resource  = "resource:"+p.getFullyQualifiedIdentifier()
+  console.log(resource)
+  const result = await query('shipmentDetailsbyProduct',{'product' : resource})
+  console.log(result)
+
+ if (result.length ==0 ) return false
+result.forEach(item => {
+   if(item.product.getIdentifier() == r.getIdentifier()){
+    return true;
+   }  else{
+    return false;
+   }
+});
+
+}
+
+  /**
 * @param {org.fishDepartment.shipping.net.productStatus} no params 
  * @transaction
  */
