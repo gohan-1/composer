@@ -73,7 +73,6 @@ abstract participant Bussiness identified by processId {
 
 asset FishProduct identified by productid {
   o String productid
-  o String[] componentId
   o String id
   o String barcode
   o String name
@@ -171,7 +170,6 @@ transaction initializeAll {
 
 transaction createFishProduct {
   o String productid
-  o String[] componentId
   o String id
   o String barcode
   o String name

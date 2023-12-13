@@ -1,9 +1,5 @@
-	   
-
-
-// Fisher man see thire assets
 	rule fishermancanseeThireasset{
-          description: "Allow fisherman to see Thire assets"
+          description: "Allow Fisher man see thire assets"
           participant(p): "org.fishDepartment.shipping.net.FisherMan"
           operation: READ,UPDATE,CREATE
           resource(r): "org.fishDepartment.shipping.net.FishProduct"
@@ -11,21 +7,8 @@
           action: ALLOW
      }
 
-
-// restricting access of the producer
-	rule producerDenyAccessofshipment{
-          description: "DENY Shipment Access"
-          participant: "org.fishDepartment.shipping.net.Producer"
-          operation: ALL
-          resource: "org.fishDepartment.shipping.net.Shipment"
-          action: DENY
-     }
-
-
-// Processor man see thire assets
-
      rule processorcanseeThireAsset{
-          description: "Processor  see thire assets"
+          description: "PAllow rocessor  cam see thire assets"
           participant(p): "org.fishDepartment.shipping.net.Processor"
           operation: READ,UPDATE
           resource(r): "org.fishDepartment.shipping.net.FishProduct"
@@ -33,9 +16,8 @@
           action: ALLOW
      }
 
-// Producer man see thire assets
      rule producercanseeThireAsset{
-          description: "Producer  see thire assets"
+          description: " Allow Producer  can see thire assets"
           participant(p): "org.fishDepartment.shipping.net.Producer"
           operation: READ,UPDATE
           resource(r): "org.fishDepartment.shipping.net.FishProduct"
@@ -44,16 +26,16 @@
      }
 
 
-// participant can see them self
+
 	 rule participantcanSeeThemself{
-          description: "participant can see them self"
+          description: "Allow participant can see them self"
           participant(p): "org.hyperledger.composer.system.Participant"
           operation: READ,UPDATE
           resource(r): "org.hyperledger.composer.system.Participant"
           condition: (p.getIdentifier()==r.getIdentifier())
           action: ALLOW
      }
-// allow  fisherman to create fish product
+
    rule CreateAsset {
           description: "Allow producer and fisherman to create FishProduct Assets"
           participant(p): "org.hyperledger.composer.system.Participant"
@@ -64,8 +46,6 @@
           action: ALLOW
      }
 
-
-// allow processor to create shipment
    rule createShipment{
           description: "Allow processor to create shipment"
           participant(p): "org.hyperledger.composer.system.Participant"
@@ -76,10 +56,9 @@
      
      }
 
-// create Shipment
 
      rule createShipmentx{
-     description: "Add new shipment by processor"
+     description: "ALLOW processor to do createShipment Transaction"
      participant: "org.fishDepartment.shipping.net.Processor"
      operation: CREATE,READ
      resource: "org.fishDepartment.shipping.net.createShipment"
@@ -87,9 +66,18 @@
      action: ALLOW
      }
 
-// distributor can see thire assets
+      rule distributorCanSeeTheirShipment{
+          description: "Allow distributor to see thire shipment"
+          participant(p): "org.fishDepartment.shipping.net.Distributor"
+          operation: READ,UPDATE
+          resource(r): "org.fishDepartment.shipping.net.Shipment"
+          condition: (p.getIdentifier()==r.distributor.getIdentifier())
+          action: ALLOW
+     }
+
+
 	  rule distributorCanupdatefishProductAsset{
-          description: "Distributor can update  fish product"
+          description: "Allow Distributor to update  fish product"
           participant(p): "org.fishDepartment.shipping.net.Distributor"
           operation: UPDATE,READ
           resource(r): "org.fishDepartment.shipping.net.FishProduct"
@@ -98,18 +86,16 @@
      }
 
 
-
-// distributor can see thire assets
- rule distributorCanSeeTheirShipment{
-          description: "Allow distributor to see shipment"
-          participant(p): "org.fishDepartment.shipping.net.Distributor"
+  rule retailerCanSeeTheirShipment{
+          description: "Allow Retailer to see thire assets"
+          participant(p): "org.fishDepartment.shipping.net.Retailer"
           operation: READ,UPDATE
           resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.distributor.getIdentifier())
+          condition: (p.getIdentifier()==r.retailer.getIdentifier())
           action: ALLOW
      }
 
-// consumer can see thire assets
+
     rule consumerCanSeeTheirShipment{
           description: "Allow consumer can see thire assets"
           participant(p): "org.fishDepartment.shipping.net.Consumer"
@@ -119,9 +105,9 @@
           action: ALLOW
      }
 
-      //consumer can quey
+      
     rule consumercanQueryFishProductLocation{
-          description: "Allow consumer can see thire assets"
+          description: "Allow consumer can to Query Fish product history of location"
           participant: "org.fishDepartment.shipping.net.Consumer"
           operation:  ALL
           resource: "org.fishDepartment.shipping.net.queryLocatoion"
@@ -129,19 +115,17 @@
           action: ALLOW
      }
 
-        //consumer can quey
     rule processorCanGETDetailsOfAssets{
-          description: "Allow consumer can see thire assets"
+          description: "Allow processor to get fish asset details"
           participant: "org.fishDepartment.shipping.net.Processor"
           operation:  ALL
           resource: "org.fishDepartment.shipping.net.FishAssetDetials"
           transaction:"org.fishDepartment.shipping.net.FishAssetDetials"
           action: ALLOW
      }
-// DENY F
-// DENY Fisherman to do this transaction
+
   rule productRecievedDENYTx{
-     description: "transaction product Recieved"
+     description: "DENY FisherMan to do transaction on product Recieved"
      participant: "org.fishDepartment.shipping.net.FisherMan"
      operation: ALL
      resource: "org.fishDepartment.shipping.net.productRecieved"
@@ -150,11 +134,8 @@
      }
 
 
-
-
-// DENY Fisherman to do this transaction
   rule removeFishermanTx{
-     description: "transaction product Recieved"
+     description: "Allow Processor to remove malicious fisherman"
      participant: "org.fishDepartment.shipping.net.Processor"
      operation: DELETE
      resource: "org.fishDepartment.shipping.net.removeFisherman"
@@ -163,9 +144,8 @@
      }
 
 
-// DENY customer to do this transaction
   rule ShipmentReceivedDENYTx{
-     description: "Transactoin Shipment Received"
+     description: "DENY customer to do shipment Recieved transaction"
      participant: "org.fishDepartment.shipping.net.FisherMan"
      operation: ALL
      resource: "org.fishDepartment.shipping.net.ShipmentReceived"
@@ -173,30 +153,19 @@
      action: DENY
      }
 
-
-// 
-     rule retailerCanSeeTheirShipment{
-          description: "Allow Retailer can see thire assets"
-          participant(p): "org.fishDepartment.shipping.net.Retailer"
-          operation: READ,UPDATE
-          resource(r): "org.fishDepartment.shipping.net.Shipment"
-          condition: (p.getIdentifier()==r.retailer.getIdentifier())
-          action: ALLOW
-     }
-
-// Retailer can update fish product
+  
 
  rule RetialerCanupdatefishProductAsset{
-          description: "Allow fisherman to se"
+          description: "Retailer can update Dish product"
           participant: "org.fishDepartment.shipping.net.Retailer"
           operation: UPDATE,READ
           resource: "org.fishDepartment.shipping.net.FishProduct"
           action: ALLOW
      }
-// Retailer can only do this opetation
+
 
     rule SellTX{
-      description: "consume the tansaction"
+      description: "Allow Retailer to do sell tansaction"
      participant: "org.fishDepartment.shipping.net.Retailer"
      operation: ALL
      resource: "org.fishDepartment.shipping.net.Sell"
@@ -204,12 +173,8 @@
      action: ALLOW
      }
 
-
-// Transfer to Retailer can only do this opetation
-
-
      rule TransferToRetailerTX{
-      description: "Transfer owner Ship to Retailer"
+      description: "Allow Transfer owner Ship to Retailer from Distributor"
      participant: "org.fishDepartment.shipping.net.Distributor"
      operation: ALL
      resource: "org.fishDepartment.shipping.net.TransferToRetailer"
@@ -217,7 +182,18 @@
      action: ALLOW
      }
 
-//  Shipment Recieved Transcation
+
+     rule TransferToProcesorTX{
+     description: "Allow Fishproduct transfer to processor transcation"
+     participant: "org.fishDepartment.shipping.net.Producer"
+     operation: ALL
+     resource: "org.fishDepartment.shipping.net.TransferToProcesor"
+     transaction: "org.fishDepartment.shipping.net.TransferToProcesor"
+     action: ALLOW
+     }
+
+
+
 
     rule ShipmentReceivedAllowTx{
      description: "Shipment Recieved Transcation"
@@ -228,9 +204,9 @@
      action: ALLOW
      }
 
-// create Product tx
+
    	rule createProducttx{
-     description: "Add new Fish product by processor"
+     description: "Add new Fish product by  fisher man"
      participant: "org.fishDepartment.shipping.net.FisherMan"
      operation: CREATE,READ
      resource: "org.fishDepartment.shipping.net.createFishProduct"
@@ -238,32 +214,14 @@
      action: ALLOW
      }
 
-
-
-    // product recieved transcation
-
      rule productRecievedAllowTx{
-     description: "product recieved transcation"
+     description: "Allow product recieved transcation"
      participant: "ANY"
      operation: ALL
      resource: "org.fishDepartment.shipping.net.productRecieved"
      transaction: "org.fishDepartment.shipping.net.productRecieved"
      action: ALLOW
      }
-
-
-
-// Fishproduct transfer to processor
-     rule TransferToProcesorTX{
-     description: "Fishproduct transfer to processor"
-     participant: "org.fishDepartment.shipping.net.Producer"
-     operation: ALL
-     resource: "org.fishDepartment.shipping.net.TransferToProcesor"
-     transaction: "org.fishDepartment.shipping.net.TransferToProcesor"
-     action: ALLOW
-     }
-
-//  Fishproduct transfer to producer
 
      rule transferToProducerTX{
      description: "Fishproduct transfer to producer"
@@ -275,10 +233,9 @@
      }
 
 
-// rule for product sruke
 
 	rule productStatusRule{
-          description: "Allow all to this query transcation"
+          description: "Allow all to this query  shipmet status transcation"
           participant: "ANY"
           operation: ALL
          resource: "org.fishDepartment.shipping.net.productStatus"
@@ -295,6 +252,15 @@
           action: ALLOW
      }
 
+
+
+	rule producerDenyAccessofshipment{
+          description: "DENY Shipment Access to producer"
+          participant: "org.fishDepartment.shipping.net.Producer"
+          operation: ALL
+          resource: "org.fishDepartment.shipping.net.Shipment"
+          action: DENY
+     }
 
 
      rule SystemACL {

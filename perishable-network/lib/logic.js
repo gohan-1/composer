@@ -248,7 +248,6 @@ async function initializeAllfn(tx) {
 
   FishermanId.forEach((element,index) => {
       let fishProduct = factory.newResource(NS,'FishProduct',`FP_000${index}`)
-      fishProduct.componentId = [`123${index}`]
       fishProduct.id = `45${index}`
       fishProduct.barcode= `abcde${index}`
       fishProduct.name= `product${index}`
@@ -383,7 +382,6 @@ async function createFishProductFn(tx){
   const id = getCurrentParticipant()  
   
   let fishProduct = factory.newResource(NS,'FishProduct',tx.productid)
-    fishProduct.componentId = tx.componentId
     fishProduct.id = tx.id
     fishProduct.barcode= tx.barcode
     fishProduct.name= tx.name
@@ -606,6 +604,7 @@ async function shipmentReceivedFn(tx){
      productLocation.currentState =currentState
  
      fishProduct.productLocation = productLocation
+     fishProduct.productStatus = "PROCESSED"
      fishProduct.locatoinHistory.push(tx.location)
      fishProductAssetRegistery.update(fishProduct)
 
@@ -651,7 +650,7 @@ async function shipmentReceivedFn(tx){
      throw new Error('particpiant having wrong credential')
    }
  
- 
+
  }
 
 /**
