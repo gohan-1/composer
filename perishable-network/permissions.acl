@@ -60,7 +60,7 @@
           operation: CREATE
           resource(r): "org.fishDepartment.shipping.net.createFishProduct"
      	  transaction : "org.fishDepartment.shipping.net.createFishProduct"
-          condition: ( checkProfileforProccessorandFisherMan(p.role) )
+          condition: ( checkProfileforProccessorOrFisherMan(p.role) )
           action: ALLOW
      }
 
@@ -128,6 +128,17 @@
           transaction:"org.fishDepartment.shipping.net.queryLocatoion"
           action: ALLOW
      }
+
+        //consumer can quey
+    rule processorCanGETDetailsOfAssets{
+          description: "Allow consumer can see thire assets"
+          participant: "org.fishDepartment.shipping.net.Processor"
+          operation:  ALL
+          resource: "org.fishDepartment.shipping.net.FishAssetDetials"
+          transaction:"org.fishDepartment.shipping.net.FishAssetDetials"
+          action: ALLOW
+     }
+// DENY F
 // DENY Fisherman to do this transaction
   rule productRecievedDENYTx{
      description: "transaction product Recieved"
@@ -145,19 +156,10 @@
   rule removeFishermanTx{
      description: "transaction product Recieved"
      participant: "org.fishDepartment.shipping.net.Processor"
-     operation: DELETE,CREATE
+     operation: DELETE
      resource: "org.fishDepartment.shipping.net.removeFisherman"
      transaction: "org.fishDepartment.shipping.net.removeFisherman"
-     action: ALLOW
-     }
-
-// DENY Fisherman to do this transaction
-  rule removeFishermanhelperTx{
-     description: "transaction product Recieved"
-     participant: "org.fishDepartment.shipping.net.Processor"
-     operation: DELETE
-     resource: "org.fishDepartment.shipping.net.FisherMan"
-     action: ALLOW
+     action: DENY
      }
 
 
@@ -193,12 +195,12 @@
      }
 // Retailer can only do this opetation
 
-    rule ConsumeTX{
+    rule SellTX{
       description: "consume the tansaction"
      participant: "org.fishDepartment.shipping.net.Retailer"
      operation: ALL
-     resource: "org.fishDepartment.shipping.net.Consume"
-     transaction: "org.fishDepartment.shipping.net.Consume"
+     resource: "org.fishDepartment.shipping.net.Sell"
+     transaction: "org.fishDepartment.shipping.net.Sell"
      action: ALLOW
      }
 

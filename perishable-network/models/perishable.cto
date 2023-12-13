@@ -83,7 +83,7 @@ asset FishProduct identified by productid {
   o ProductType type
   o String batchQuantity
   o String unitPrice 
-  o String[] history optional
+  o String[] locatoinHistory optional
   o ProductLocation productLocation
   o ProductStatus productStatus  default ="CREATED"
   --> FisherMan owner
@@ -226,7 +226,7 @@ transaction TransferToRetailer {
  --> Shipment shipment
 }
 
-transaction Consume {
+transaction Sell {
   --> Consumer consumer
   --> Shipment shipment
 }
@@ -244,7 +244,7 @@ transaction productStatus {
 }
   
   
-transaction queryAssets {
+transaction FishAssetDetials {
 
 }
 
