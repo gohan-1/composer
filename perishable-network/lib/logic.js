@@ -25,12 +25,11 @@ async function productLocations(tx){
 
   
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
-    let fishProduct=fishProductAssetRegistery.get(tx.getIdentifier())
-if (fishProduct.length ==0 ) throw new Error(' No Shipment Details for this product')
-result.forEach(item => {
-  
-  console.log(`locations are ${item.locatoinHistory}`)
-});
+  console.log(tx.product.getIdentifier())
+    let fishProduct=fishProductAssetRegistery.get(tx.product.getIdentifier())
+    console.log(fishProduct)
+      console.log(`locations are ${fishProduct.__zone_symbol__value.locatoinHistory}`)
+
 
 
 }
@@ -67,11 +66,12 @@ async function productStatus(tx){
  * @transaction
  */
 
-async function fishAssetDetialsFn(tx){
+async function fishAssetDetialsFn(){
   try{
-    const processor= getCurrentParticipant()  
+    const processor= getCurrentParticipant()
+    console.log(processor)
    let resource  = "resource:"+processor.getFullyQualifiedIdentifier()
-    const result = await query('assetDetailhistorysbyProcessor',{'processor' : resource})
+    const result = await query('assetDetailsbyProcessor',{'processor' : resource})
 
   if (result.length ==0 ) throw new Error(' No Shipment Details for this product')
   return result
@@ -532,8 +532,9 @@ async function productRecievedFn(tx){
    const result = await fishAssetDetialsFn();
   result.forEach((item,index) => {
     
-  const assetDetails = tx.fishDepartment  
-  if(assetDetails.processor.getIdentifier() == item.processor.getIdentifier){
+  const assetDetails = tx.fishDepartment 
+  console.log(item)
+  if(assetDetails.processor.getIdentifier() == item.processor.getIdentifier()){
     if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
       assetDetails.productStatus = "IN_PROCESSING"    
       let  productLocation = factory.newConcept(NS,'ProductLocation')
@@ -564,7 +565,7 @@ async function productRecievedFn(tx){
     
   });
      
-  FishAssetDetialsFn
+
   }else{
     throw new Error('particpiant having wrong credential')
   }

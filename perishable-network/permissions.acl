@@ -114,6 +114,13 @@
           transaction:"org.fishDepartment.shipping.net.queryLocatoion"
           action: ALLOW
      }
+      rule consumercanQuerycanReadFishProduct{
+          description: "Allow consumer can to Query Fish product history of location"
+          participant: "org.fishDepartment.shipping.net.Consumer"
+          operation:  READ
+          resource: "org.fishDepartment.shipping.net.FishProduct"
+          action: ALLOW
+     }
 
     rule processorCanGETDetailsOfAssets{
           description: "Allow processor to get fish asset details"
