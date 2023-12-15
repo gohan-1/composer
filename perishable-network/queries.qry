@@ -41,6 +41,6 @@ query statusQuery{
 query transactionQuery{
   description:"quering transaction details"
   statement: SELECT org.hyperledger.composer.system.HistorianRecord
-          WHERE (transactionType == 'org.fishDepartment.shipping.net.createFishProduct' OR transactionType == 'org.fishDepartment.shipping.ne t.createShipment' OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.TransferToProducer'  OR transactionType == 'org.fishDepartment.shipping.net.productRecieved' OR transactionType == 'org.fishDepartment.shipping.net.TransferToProcesor' OR transactionType == 'org.fishDepartment.shipping.net.TransferToRetailer'  OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.Consume'  )
+          WHERE (transactionType == 'org.fishDepartment.shipping.net.createFishProduct' OR transactionType == 'org.fishDepartment.shipping.ne t.createShipment' OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.TransferToProducer'  OR transactionType == 'org.fishDepartment.shipping.net.productReceived' OR transactionType == 'org.fishDepartment.shipping.net.TransferToProcesor' OR transactionType == 'org.fishDepartment.shipping.net.TransferToRetailer'  OR transactionType == 'org.fishDepartment.shipping.net.ShipmentReceived'  OR transactionType == 'org.fishDepartment.shipping.net.Consume'  )
 
 }

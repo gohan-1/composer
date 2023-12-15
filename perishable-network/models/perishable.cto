@@ -64,7 +64,7 @@ enum Role{
 
 
 
-abstract participant Bussiness identified by processId {
+abstract participant Business identified by processId {
   o String processId
   o String email
   o String number
@@ -109,7 +109,7 @@ participant Producer identified by pid{
   o Role role default = "PRODUCER"
 }
 
-participant  Processor extends Bussiness {}
+participant  Processor extends Business {}
 
 participant Distributor identified by Did {
   o String Did
@@ -142,7 +142,7 @@ abstract transaction ProductTransaction {
   --> FishProduct fishDepartment
 }
 
-transaction productRecieved extends ProductTransaction{
+transaction productReceived extends ProductTransaction{
  o String location
 }
 
@@ -251,7 +251,7 @@ transaction queryTransaction {
 
 }
   
-transaction queryLocatoion {
+transaction queryLocation {
   -->FishProduct product
 }
 

@@ -3,13 +3,12 @@ var NS = 'org.fishDepartment.shipping.net';
 
 // check profile for creation of Fish Product asset
 function checkProfileforProccessorOrFisherMan(role){
-    console.log(role)
     return  (role == "PRODUCER" || role == "FISHERMAN")
   }
 
   // check Role for creation of shipment
  function checkProfileforProcessor(role){
-  console.log(role)
+
     return  (role == "PROCESSOR")
   }
 
@@ -17,7 +16,7 @@ function checkProfileforProccessorOrFisherMan(role){
 
   /**
    * query location
-* @param {org.fishDepartment.shipping.net.queryLocatoion} productLocations
+* @param {org.fishDepartment.shipping.net.queryLocation} productLocations
  * @transaction
  */
 
@@ -25,9 +24,8 @@ async function productLocations(tx){
 
   
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
-  console.log(tx.product.getIdentifier())
     let fishProduct=fishProductAssetRegistery.get(tx.product.getIdentifier())
-    console.log(fishProduct)
+
       console.log(`locations are ${fishProduct.__zone_symbol__value.locatoinHistory}`)
 
 
@@ -54,7 +52,7 @@ async function productStatus(tx){
     console.log(`product having shipment ID ${item.shipmentId} and belong to batch ID${item.batchId} is in ${item.status}`)
   });
 }catch(e){
-  throw new Error(`Error in product Status  ${e}`)
+  throw new Error(`Error in product Status ${e}`)
 }
 
 
@@ -475,7 +473,7 @@ async function transferToProducerFn(tx){
       product.producer = tx.producer
       fishProductAssetRegistery.update(product)
     }else{
-      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+      throw new Error('Fisherman can not do this operation , check whether product is already transferred or have the right access')
     }
 
   }else{
@@ -488,20 +486,20 @@ async function transferToProducerFn(tx){
 
 /**
  *  Product Recieve acknowledgement
- * @param {org.fishDepartment.shipping.net.productRecieved} productRecievedFn - no params
+ * @param {org.fishDepartment.shipping.net.productReceived} productReceivedFn - no params
  * @transaction
  */
-async function productRecievedFn(tx){
+async function productReceivedFn(tx){
  let factory = getFactory();
 
-  const particpantDetails= getCurrentParticipant()  
+  const participantDetails= getCurrentParticipant()  
 
   const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
 
-  if(particpantDetails.role=== "PRODUCER"){
+  if(participantDetails.role=== "PRODUCER"){
 
   const assetDetails = tx.fishDepartment  
-  if(assetDetails.producer.getIdentifier() ==  particpantDetails.getIdentifier() ){
+  if(assetDetails.producer.getIdentifier() ==  participantDetails.getIdentifier() ){
     assetDetails.productStatus = "IN_PRODUCTION"
     let  productLocation = factory.newConcept(NS,'ProductLocation')
     let currentState = factory.newConcept(NS,'CurrentState')
@@ -528,14 +526,14 @@ async function productRecievedFn(tx){
 
 
 
-  }else if(particpantDetails.role=== "PROCESSOR"){
+  }else if(participantDetails.role=== "PROCESSOR"){
    const result = await fishAssetDetialsFn();
   result.forEach((item,index) => {
     
   const assetDetails = tx.fishDepartment 
   console.log(item)
   if(assetDetails.processor.getIdentifier() == item.processor.getIdentifier()){
-    if(assetDetails.processor.getIdentifier() ==  particpantDetails.getIdentifier() ){
+    if(assetDetails.processor.getIdentifier() ==  participantDetails.getIdentifier() ){
       assetDetails.productStatus = "IN_PROCESSING"    
       let  productLocation = factory.newConcept(NS,'ProductLocation')
       let currentState = factory.newConcept(NS,'CurrentState')
@@ -581,14 +579,14 @@ async function productRecievedFn(tx){
 async function shipmentReceivedFn(tx){
 
   let factory = getFactory();
-   const particpantDetails= getCurrentParticipant()  
+   const participantDetails= getCurrentParticipant()  
    const fishProductAssetRegistery =  await getAssetRegistry(NS+'.FishProduct')
     const shipmentAssetRegistery =  await getAssetRegistry(NS+'.Shipment')
 
-   if(particpantDetails.role=== "DISTRIBUTOR"){
+   if(participantDetails.role=== "DISTRIBUTOR"){
     const assetDetails = tx.shipment
  
-   if(assetDetails.distributor.getIdentifier() ==  particpantDetails.getIdentifier() ){
+   if(assetDetails.distributor.getIdentifier() ==  participantDetails.getIdentifier() ){
 
      let fishProduct=fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
      fishProduct = fishProduct.__zone_symbol__value
@@ -616,10 +614,10 @@ async function shipmentReceivedFn(tx){
      throw new Error('Identifier miss match')
    }
 
-   }else if(particpantDetails.role=== "RETAILER"){
+   }else if(participantDetails.role=== "RETAILER"){
     const assetDetails = tx.shipment
 
-      if(assetDetails.retailer.getIdentifier() ==  particpantDetails.getIdentifier() ){
+      if(assetDetails.retailer.getIdentifier() ==  participantDetails.getIdentifier() ){
       
      let fishProduct=fishProductAssetRegistery.get(assetDetails.product.getIdentifier())
      console.log(fishProduct)
@@ -676,7 +674,7 @@ async function transferToProcesorFn(tx){
     
         fishProductAssetRegistery.update(product)
     }else{
-        throw new Error('Prodcer can not do this operation , check whether product is already transfered or have the right access')
+        throw new Error('Prodcer can not do this operation , check whether product is already transferred or have the right access')
     }
   }else{
     throw new Error('Producer does not exist, please check the producer id')
@@ -704,7 +702,7 @@ async function transferToRetailerFn(tx){
       shipment.status = "SHIPPED"
       shipmentAssetRegistery.update(shipment)
     }else{
-      throw new Error('Distributor can not do this operation , check whether shipment is already transfered or have the right access')
+      throw new Error('Distributor can not do this operation , check whether shipment is already transferred or have the right access')
     }
   }else{
     throw new Error('Distributor does not exist, please check the producer id')
@@ -738,7 +736,7 @@ async function sellFn(tx){
       shipment.status = "SOLD"
       shipmentAssetRegistery.update(shipment)
     }else{
-      throw new Error('Fisherman can not do this operation , check whether product is already transfered or have the right access')
+      throw new Error('Fisherman can not do this operation , check whether product is already transferred or have the right access')
     }
 
   }else{
