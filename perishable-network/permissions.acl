@@ -144,11 +144,20 @@
   rule removeFishermanTx{
      description: "Allow Processor to remove malicious fisherman"
      participant: "org.fishDepartment.shipping.net.Processor"
-     operation: DELETE
+     operation: DELETE,CREATE
      resource: "org.fishDepartment.shipping.net.removeFisherman"
      transaction: "org.fishDepartment.shipping.net.removeFisherman"
-     action: DENY
+     action: ALLOW
      }
+     rule removeFisherman{
+     description: "Allow Processor to remove malicious fisherman"
+     participant: "org.fishDepartment.shipping.net.Processor"
+     operation: DELETE,CREATE
+     resource: "org.fishDepartment.shipping.net.FisherMan"
+
+     action: ALLOW
+     }
+
 
 
   rule ShipmentReceivedDENYTx{
